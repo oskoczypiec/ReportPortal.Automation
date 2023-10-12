@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>ReportPortal.Tests</name>
+    </assembly>
+    <members>
+        <member name="T:ReportPortal.Tests.IntegrationTests.SampleIntegrationTests">
+            <summary>
+            Example tests.
+            </summary>
+        </member>
+        <member name="M:ReportPortal.Tests.IntegrationTests.SampleIntegrationTests.Setup">
+            <summary>
+            Preconditions before test run.
+            </summary>
+        </member>
+        <member name="M:ReportPortal.Tests.IntegrationTests.SampleIntegrationTests.Test1">
+            <summary>
+            Example test.
+            </summary>
+        </member>
+    </members>
+</doc>

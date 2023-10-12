@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>ReportPortal.Core</name>
+    </assembly>
+    <members>
+        <member name="T:ReportPortal.Core.Config.WebDriverFactory">
+            <summary>
+            Class for creating Webdriver based on Factory pattern.
+            </summary>
+        </member>
+        <member name="M:ReportPortal.Core.Config.WebDriverFactory.CreateDriver">
+            <summary>
+            Method for dynamic driver creation depending on browser type.
+            </summary>
+            <returns>Driver.</returns>
+        </member>
+        <member name="T:ReportPortal.Core.Reporter.Reporter">
+            <summary>
+            Reporter class for generating test result report.
+            </summary>
+        </member>
+    </members>
+</doc>
