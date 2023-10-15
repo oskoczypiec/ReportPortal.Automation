@@ -4,19 +4,34 @@
         <name>ReportPortal.Tests</name>
     </assembly>
     <members>
-        <member name="T:ReportPortal.Tests.IntegrationTests.SampleIntegrationTests">
+        <member name="T:ReportPortal.Core.Tests.BaseTest">
             <summary>
-            Example tests.
+            Base test class for Selenium tests. Provides setup and teardown methods.
             </summary>
         </member>
-        <member name="M:ReportPortal.Tests.IntegrationTests.SampleIntegrationTests.Setup">
+        <member name="F:ReportPortal.Core.Tests.BaseTest.driver">
             <summary>
-            Preconditions before test run.
+            The WebDriver instance used for test automation. It can be accessed and manipulated by derived test classes.
             </summary>
         </member>
-        <member name="M:ReportPortal.Tests.IntegrationTests.SampleIntegrationTests.Test1">
+        <member name="M:ReportPortal.Core.Tests.BaseTest.BaseOneTimeSetUp">
             <summary>
-            Example test.
+            One-time setup method for test run initialization.
+            </summary>
+        </member>
+        <member name="M:ReportPortal.Core.Tests.BaseTest.BaseOneTearDown">
+            <summary>
+            One-time teardown method for test run completion.
+            </summary>
+        </member>
+        <member name="M:ReportPortal.Core.Tests.BaseTest.Initialize">
+            <summary>
+            Initializes the WebDriver and navigates to the test URL.
+            </summary>
+        </member>
+        <member name="M:ReportPortal.Core.Tests.BaseTest.BaseTearDown">
+            <summary>
+            Cleans up and reports test results, including attaching screenshots if a test fails.
             </summary>
         </member>
     </members>

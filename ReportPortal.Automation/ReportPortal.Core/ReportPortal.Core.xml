@@ -4,6 +4,34 @@
         <name>ReportPortal.Core</name>
     </assembly>
     <members>
+        <member name="T:ReportPortal.Core.Config.ApplicationConfiguration">
+            <summary>
+            Configuration manager for retrieving and managing application settings.
+            </summary>
+        </member>
+        <member name="M:ReportPortal.Core.Config.ApplicationConfiguration.SetUp">
+            <summary>
+            Initializes a new instance of the <see cref="T:ReportPortal.Core.Config.ApplicationConfiguration"/> class, loading application settings from 'appsettings.json'.
+            </summary>
+        </member>
+        <member name="M:ReportPortal.Core.Config.ApplicationConfiguration.GetBrowser">
+            <summary>
+            Retrieves the configured web browser from application settings.
+            </summary>
+            <returns>The selected web browser as an enum value.</returns>
+            <exception cref="T:System.ArgumentException">Thrown when the 'Browser' setting is missing or unsupported.</exception>
+        </member>
+        <member name="T:ReportPortal.Core.Config.Chrome">
+            <summary>
+            Helper class for configuring and creating instances of the Chrome WebDriver with custom options.
+            </summary>
+        </member>
+        <member name="M:ReportPortal.Core.Config.Chrome.ConfigureChromeDriver">
+            <summary>
+            Configures and creates a Chrome WebDriver instance with custom options.
+            </summary>
+            <returns>The configured Chrome WebDriver instance.</returns>
+        </member>
         <member name="T:ReportPortal.Core.Config.WebDriverFactory">
             <summary>
             Class for creating Webdriver based on Factory pattern.
@@ -11,14 +39,84 @@
         </member>
         <member name="M:ReportPortal.Core.Config.WebDriverFactory.CreateDriver">
             <summary>
-            Method for dynamic driver creation depending on browser type.
+            Creates and configures a WebDriver instance based on the selected browser.
             </summary>
-            <returns>Driver.</returns>
+            <returns>The configured WebDriver instance.</returns>
+        </member>
+        <member name="M:ReportPortal.Core.Config.WebDriverFactory.GetBrowserOptions(ReportPortal.Core.Enums.BrowserEnums)">
+            <summary>
+            Retrieves and configures browser-specific options based on the specified browser name.
+            </summary>
+            <param name="browserName">The name of the desired web browser.</param>
+            <returns>The configured browser-specific options for WebDriver.</returns>
+            <exception cref="T:System.ArgumentException">Thrown when an unsupported browser name is provided.</exception>
+        </member>
+        <member name="T:ReportPortal.Core.Enums.BrowserEnums">
+            <summary>
+            Enumeration of supported web browsers for test automation.
+            </summary>
+        </member>
+        <member name="T:ReportPortal.Core.Logger.ConsoleLogger">
+            <summary>
+            Provides logging capabilities with the ability to log messages at various levels (Info, Debug, Warn, Error) to the console and a log file.
+            </summary>
+        </member>
+        <member name="M:ReportPortal.Core.Logger.ConsoleLogger.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:ReportPortal.Core.Logger.ConsoleLogger"/> class. It configures the logger to log messages to the console and a log file.
+            </summary>
+        </member>
+        <member name="M:ReportPortal.Core.Logger.ConsoleLogger.CloseLogger">
+            <summary>
+            Closes and flushes the logger, ensuring all log messages are written before finishing the logging.
+            </summary>
+        </member>
+        <member name="M:ReportPortal.Core.Logger.ConsoleLogger.Info(System.String)">
+            <summary>
+            Logs an information message.
+            </summary>
+            <param name="message">The information message to log.</param>
+        </member>
+        <member name="M:ReportPortal.Core.Logger.ConsoleLogger.Debug(System.String)">
+            <summary>
+            Logs a debug message.
+            </summary>
+            <param name="message">The debug message to log.</param>
+        </member>
+        <member name="M:ReportPortal.Core.Logger.ConsoleLogger.Warn(System.String)">
+            <summary>
+            Logs a warning message.
+            </summary>
+            <param name="message">The warning message to log.</param>
+        </member>
+        <member name="M:ReportPortal.Core.Logger.ConsoleLogger.Error(System.String)">
+            <summary>
+            Logs an error message.
+            </summary>
+            <param name="message">The error message to log.</param>
+        </member>
+        <member name="T:ReportPortal.Core.Logger.Logger">
+            <summary>
+            Provides logging capabilities for the test framework.
+            </summary>
+        </member>
+        <member name="P:ReportPortal.Core.Logger.Logger.Log">
+            <summary>
+            Gets static instance of ConsoleLogger.
+            </summary>
         </member>
         <member name="T:ReportPortal.Core.Reporter.Reporter">
             <summary>
             Reporter class for generating test result report.
             </summary>
+        </member>
+        <member name="M:ReportPortal.Core.Reporter.Reporter.AttachScreenshotIfFailed(OpenQA.Selenium.IWebDriver,NUnit.Framework.Interfaces.TestStatus,System.String)">
+            <summary>
+            Attaches a screenshot to the test report if the test has failed.
+            </summary>
+            <param name="driver">The WebDriver instance used for the test.</param>
+            <param name="result">The result status of the test.</param>
+            <param name="testName">The name of the test being executed.</param>
         </member>
     </members>
 </doc>

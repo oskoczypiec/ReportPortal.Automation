@@ -4,8 +4,14 @@
 
 namespace ReportPortal.Core.Logger
 {
+    /// <summary>
+    /// Provides logging capabilities for the test framework.
+    /// </summary>
     public static class Logger
     {
-        public static ConsoleLogger Log { get; } = new();
+        /// <summary>
+        /// Gets static instance of ConsoleLogger.
+        /// </summary>
+        public static ConsoleLogger Log { get; } = new ();
     }
 }

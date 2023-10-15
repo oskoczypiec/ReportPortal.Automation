@@ -1,23 +1,28 @@
-// <copyright file="UnitTest1.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+// <copyright file="SampleComponentTests.cs" company="EPAM">
+// Copyright (c) EPAM. All rights reserved.
 // </copyright>
-
-using OpenQA.Selenium;
-using ReportPortal.Core.Config;
-using ReportPortal.Core.Tests;
 
 namespace ReportPortal.Tests.ComponentTests
 {
+    using FluentAssertions;
+    using ReportPortal.Core.Tests;
+
     [TestFixture]
     [Parallelizable(ParallelScope.Fixtures)]
     public class SampleComponentTests : BaseTest
     {
-
         [Test]
         public void Test1()
         {
-            this.Driver.Navigate().GoToUrl("https://www.google.com/");
-            Assert.AreEqual("https://www.google.com/", Driver.Url);
+            var expectedUrl = "https://www.google.com/";
+            this.driver!.Navigate().GoToUrl(expectedUrl);
+            this.driver.Url.Should().Be(expectedUrl);
+        }
+
+        [Test]
+        public void TestToFail()
+        {
+            Assert.Fail();
         }
     }
 }
