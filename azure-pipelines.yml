@@ -31,9 +31,16 @@ steps:
   inputs:
     restoreSolution: '$(solution)'
 
+- task: VSTest@3
+  inputs:
+    testSelector: 'testAssemblies'
+    testAssemblyVer2: '**\*Tests.dll'
+    searchFolder: '$(System.DefaultWorkingDirectory)'
+    runInParallel: true
+
 - task: CopyFiles@2
   inputs:
-    Contents: '**/logs, **/screenshots'
+    Contents: '**/logs/**, **/screenshots/**'
     TargetFolder: '$(Build.ArtifactStagingDirectory)'
 
 - task: PublishBuildArtifacts@1
@@ -41,12 +48,3 @@ steps:
     pathToPublish: '$(Build.ArtifactStagingDirectory)'
     artifactName: drop
 
-- task: VSTest@2
-  inputs:
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
-    testAssemblyVer2: |
-        **\ReportPortal.Tests.dll
-    searchFolder: '$(System.DefaultWorkingDirectory)'
-    runInParallel: true
-    
