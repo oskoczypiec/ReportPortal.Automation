@@ -16,7 +16,7 @@ schedules:
     - main
 
 pool:
-  vmImage: ubuntu-latest
+  vmImage: 'windows-latest'
 
 variables:
 - name: solution
