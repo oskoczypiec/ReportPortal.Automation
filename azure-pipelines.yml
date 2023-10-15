@@ -5,7 +5,7 @@
 
 trigger:
 - main
-- feature/*
+- feat/*
 
 # YAML file in the main branch
 schedules:
@@ -27,7 +27,6 @@ variables:
   value: 'Any CPU'  
 
 steps:
-
 - task: NuGetCommand@2
   inputs:
     restoreSolution: '$(solution)'
