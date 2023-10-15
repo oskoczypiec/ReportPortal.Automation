@@ -46,7 +46,7 @@ steps:
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
     testAssemblyVer2: |
-        **\bin\$(BuildConfiguration)\**\ReportPortal.Tests.dll
+        **\ReportPortal.Tests.dll
     searchFolder: '$(System.DefaultWorkingDirectory)'
     runInParallel: true
     
