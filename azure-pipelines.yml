@@ -35,10 +35,11 @@ steps:
   inputs:
     command: 'restore'
     restoreSolution: '**/*.sln'
-    
+
 - task: DotNetCoreCLI@2
   inputs:
     command: 'build'
+    projects: '**/*.csproj'
 
 - task: CmdLine@2
   inputs:
