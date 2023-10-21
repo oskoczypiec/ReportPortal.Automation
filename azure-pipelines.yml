@@ -20,7 +20,7 @@ jobs:
   pool:
     vmImage: 'windows-latest'
   strategy:
-    parallel: 5
+    parallel: 1
   displayName: Run tests in parallel
 
   steps:
