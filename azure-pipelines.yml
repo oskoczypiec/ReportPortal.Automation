@@ -28,7 +28,7 @@ jobs:
     inputs:
       dockerComposeFile: '**/docker-compose.yml'
       containerName: 'windows:1809'
-      action: 'Run services'
+      action: Run a Docker Compose command
       detached: true
       projectName: 'reportportal'
   - task: UseDotNet@2
