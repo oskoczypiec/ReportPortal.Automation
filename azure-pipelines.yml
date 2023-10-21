@@ -15,54 +15,41 @@ schedules:
     include:
     - main
 
-pool:
-  vmImage: 'windows-latest'
+jobs:
+- job: 'ParallelTesting'
+  pool:
+    vmImage: 'ubuntu-latest'
+  strategy:
+    parallel: 1
+  displayName: Run ReportPortal tests
 
-variables:
-- name: solution
-  value: '**/*.sln'
-- name: buildConfiguration
-  value: 'Release'
-- name: buildPlatform
-  value: 'Any CPU'  
+  steps:
+  - task: DockerCompose@0
+    inputs:
+      dockerComposeFile: '**/docker-compose.yml'
+      action: Run a Docker Compose command
+      dockerComposeCommand: 'up -d --force-recreate'
+      detached: true
+      projectName: 'reportportal'
 
-steps:
-- task: NuGetCommand@2
-  inputs:
-    restoreSolution: '$(solution)'
+  - task: DotNetCoreCLI@2
+    displayName: Build
+    inputs:
+      command: build
+      projects: '**/*.csproj'
 
-- task: CmdLine@2
-  inputs:
-    script: |
-      echo "Structure of work folder of this pipeline:"
-      tree $(Build.SourcesDirectory)\1 /f
-      
-      echo "Build.ArtifactStagingDirectory:" 
-      
-      echo "$(Build.ArtifactStagingDirectory)"
-      
-      echo "Build.BinariesDirectory:" 
-      
-      echo "$(Build.BinariesDirectory)"
-      
-      echo "Build.SourcesDirectory:"
-      
-      echo "$(Build.SourcesDirectory)"
+  - task: DotNetCoreCLI@2
+    displayName: Test
+    inputs:
+      command: test
+      projects: '**/*Tests/*Tests.csproj'
+      arguments: '--no-build'
+  - task: CopyFiles@2
+    inputs:
+      Contents: '**/logs/**, **/screenshots/**'
+      TargetFolder: '$(Build.ArtifactStagingDirectory)'
 
-- task: VSTest@3
-  inputs:
-    testSelector: 'testAssemblies'
-    testAssemblyVer2: '**\*Tests.dll'
-    searchFolder: '$(System.DefaultWorkingDirectory)'
-    runInParallel: true
-
-- task: CopyFiles@2
-  inputs:
-    Contents: '**/logs/**, **/screenshots/**'
-    TargetFolder: '$(Build.ArtifactStagingDirectory)'
-
-- task: PublishBuildArtifacts@1
-  inputs:
-    pathToPublish: '$(Build.ArtifactStagingDirectory)'
-    artifactName: drop
-
+  - task: PublishBuildArtifacts@1
+    inputs:
+      pathToPublish: '$(Build.ArtifactStagingDirectory)'
+      artifactName: drop
