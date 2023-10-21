@@ -21,7 +21,7 @@ jobs:
     vmImage: 'ubuntu-latest'
   strategy:
     parallel: 1
-  displayName: Run tests in parallel
+  displayName: Run ReportPortal tests
 
   steps:
   - task: DockerCompose@0
@@ -31,12 +31,7 @@ jobs:
       dockerComposeCommand: 'up -d --force-recreate'
       detached: true
       projectName: 'reportportal'
-  - task: UseDotNet@2
-    displayName: 'Use .NET Core sdk 7.0.x'
-    inputs:
-      version: 7.0.x
-      performMultiLevelLookup: true
-      
+
   - task: DotNetCoreCLI@2
     displayName: Build
     inputs:
