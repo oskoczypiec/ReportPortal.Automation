@@ -42,7 +42,7 @@ jobs:
     displayName: Test
     inputs:
       command: test
-      projects: '**/*Tests/*Tests.csproj'
+      projects: '**/ReportPortal.Tests.csproj'
       arguments: '--no-build'
   - task: CopyFiles@2
     inputs:
