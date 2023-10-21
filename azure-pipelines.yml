@@ -25,20 +25,15 @@ jobs:
   displayName: Run tests in parallel
 
   steps:
-  - task: DockerCompose@0
-    inputs:
-      dockerComposeFile: '**/docker-compose.yml'
-      containerName: 'windows:1809'
-      action: Run a Docker Compose command
-      dockerComposeCommand: 'up -d --force-recreate'
-      detached: true
-      projectName: 'reportportal'
-  - task: UseDotNet@2
-    displayName: 'Use .NET Core sdk 7.0.x'
-    inputs:
-      version: 7.0.x
-      performMultiLevelLookup: true
-      
+  - powershell: |
+      # Install Docker (if not already installed)
+      if (-Not (Test-Path 'C:\Program Files\Docker\Docker\Docker Desktop.exe')) {
+          Invoke-WebRequest -Uri https://desktop.docker.com/win/stable/Docker%20Desktop%20Installer.exe -OutFile docker-installer.exe
+          Start-Process -Wait -FilePath .\docker-installer.exe
+      }
+      Start-Service Docker
+      docker compose -f docker-compose.yml -p reportportal up -d --force-recreate
+
   - task: DotNetCoreCLI@2
     displayName: Build
     inputs:
