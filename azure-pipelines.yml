@@ -41,7 +41,7 @@ jobs:
     inputs:
       command: test
       projects: '**/*Tests/*Tests.csproj'
-      arguments: '--no-build --filter "$(targetTestsFilter)"'
+      arguments: '--no-build'
   - task: CopyFiles@2
     inputs:
       Contents: '**/logs/**, **/screenshots/**'
