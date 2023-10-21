@@ -1,0 +1,68 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+- main
+- feat/*
+
+# YAML file in the main branch
+schedules:
+- cron: "0 0 * * *"
+  displayName: Daily midnight build
+  branches:
+    include:
+    - main
+
+pool:
+  vmImage: 'windows-latest'
+
+variables:
+- name: solution
+  value: '**/*.sln'
+- name: buildConfiguration
+  value: 'Release'
+- name: buildPlatform
+  value: 'Any CPU'  
+
+steps:
+- task: NuGetCommand@2
+  inputs:
+    restoreSolution: '$(solution)'
+
+- task: CmdLine@2
+  inputs:
+    script: |
+      echo "Structure of work folder of this pipeline:"
+      tree $(Build.SourcesDirectory)\1 /f
+      
+      echo "Build.ArtifactStagingDirectory:" 
+      
+      echo "$(Build.ArtifactStagingDirectory)"
+      
+      echo "Build.BinariesDirectory:" 
+      
+      echo "$(Build.BinariesDirectory)"
+      
+      echo "Build.SourcesDirectory:"
+      
+      echo "$(Build.SourcesDirectory)"
+
+- task: VSTest@3
+  inputs:
+    testSelector: 'testAssemblies'
+    testAssemblyVer2: '**\*Tests.dll'
+    searchFolder: '$(System.DefaultWorkingDirectory)'
+    runInParallel: true
+
+- task: CopyFiles@2
+  inputs:
+    Contents: '**/logs/**, **/screenshots/**'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)'
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    pathToPublish: '$(Build.ArtifactStagingDirectory)'
+    artifactName: drop
+
