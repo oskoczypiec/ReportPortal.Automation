@@ -19,7 +19,6 @@ jobs:
 - job: 'ParallelTesting'
   pool:
     vmImage: 'windows-latest'
-  container: mcr.microsoft.com/windows/10.0.17763.4974
   strategy:
     parallel: 1
   displayName: Run tests in parallel
