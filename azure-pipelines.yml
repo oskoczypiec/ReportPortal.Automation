@@ -15,64 +15,39 @@ schedules:
     include:
     - main
 
-pool:
-  vmImage: 'windows-latest'
+jobs:
+- job: 'ParallelTesting'
+  pool:
+    vmImage: 'windows-latest'
+  strategy:
+    parallel: 5
+  displayName: Run tests in parallel
 
-variables:
-- name: solution
-  value: '**/*.sln'
-- name: buildConfiguration
-  value: 'Release'
-- name: buildPlatform
-  value: 'Any CPU'  
-
-steps:
-- task: NuGetCommand@2
-  inputs:
-    restoreSolution: '$(solution)'
-
-- task: NuGetCommand@2
-  inputs:
-    command: 'restore'
-    restoreSolution: '**/*.sln'
-
-- task: DotNetCoreCLI@2
-  inputs:
-    command: 'build'
-    projects: '**/*.csproj'
-
-- task: CmdLine@2
-  inputs:
-    script: |
-      echo "Structure of work folder of this pipeline:"
-      tree $(Build.SourcesDirectory)\1 /f
+  steps:
+  - task: UseDotNet@2
+    displayName: 'Use .NET Core sdk 7.0.x'
+    inputs:
+      version: 7.0.x
+      performMultiLevelLookup: true
       
-      echo "Build.ArtifactStagingDirectory:" 
-      
-      echo "$(Build.ArtifactStagingDirectory)"
-      
-      echo "Build.BinariesDirectory:" 
-      
-      echo "$(Build.BinariesDirectory)"
-      
-      echo "Build.SourcesDirectory:"
-      
-      echo "$(Build.SourcesDirectory)"
+  - task: DotNetCoreCLI@2
+    displayName: Build
+    inputs:
+      command: build
+      projects: '**/*.csproj'
 
-- task: VSTest@3
-  inputs:
-    testSelector: 'testAssemblies'
-    testAssemblyVer2: '**\*Tests.dll'
-    searchFolder: '$(System.DefaultWorkingDirectory)'
-    runInParallel: true
+  - task: DotNetCoreCLI@2
+    displayName: Test
+    inputs:
+      command: test
+      projects: '**/*Tests/*Tests.csproj'
+      arguments: '--no-build --filter "$(targetTestsFilter)"'
+  - task: CopyFiles@2
+    inputs:
+      Contents: '**/logs/**, **/screenshots/**'
+      TargetFolder: '$(Build.ArtifactStagingDirectory)'
 
-- task: CopyFiles@2
-  inputs:
-    Contents: '**/logs/**, **/screenshots/**'
-    TargetFolder: '$(Build.ArtifactStagingDirectory)'
-
-- task: PublishBuildArtifacts@1
-  inputs:
-    pathToPublish: '$(Build.ArtifactStagingDirectory)'
-    artifactName: drop
-
+  - task: PublishBuildArtifacts@1
+    inputs:
+      pathToPublish: '$(Build.ArtifactStagingDirectory)'
+      artifactName: drop
