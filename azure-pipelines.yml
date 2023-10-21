@@ -26,11 +26,10 @@ jobs:
   steps:
   - task: DockerCompose@0
     inputs:
-      containerregistrytype: 'Azure Container Registry'
-      dockerComposeFile: '**/docker-compose.yml'
-      action: Run a Docker Compose command
-      dockerComposeCommand: 'reportportal up -d --force-recreate'
-
+      dockerComposeFile: 'docker-compose.yml'
+      action: 'Run services'
+      detached: true
+      projectName: 'reportportal'
   - task: UseDotNet@2
     displayName: 'Use .NET Core sdk 7.0.x'
     inputs:
