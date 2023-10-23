@@ -11,6 +11,7 @@ namespace ReportPortal.Business.Pages
     {
         private IWebDriver driver;
         private string entityName = string.Empty;
+        private string filterName = string.Empty;
 
         public FiltersPage(IWebDriver driver)
         {
@@ -24,6 +25,14 @@ namespace ReportPortal.Business.Pages
         private IWebElement DropdownEntity => this.driver.GetElement(By.XPath($"//span[contains(@class, 'inputCheckbox__children-container') and text()='{this.entityName}']"));
 
         private IWebElement InputConditional => this.driver.GetElement(By.XPath($"//span[contains(@class, 'fieldFilterEntity__entity-name') and text()='{this.entityName}']/..//input"));
+
+        private IWebElement SaveButton => this.driver.GetElement(By.XPath($"//span[contains(@class, 'ghostButton__text') and text()='Save']"));
+
+        private IWebElement DeleteActiveFilterButton => this.driver.GetElement(By.CssSelector("div[class*='filterItem__icon'] > svg"));
+
+        private By ActiveFiltersLocator => By.XPath("//span[contains(@class, 'filterItem__name')]");
+
+        private By FilterListLocator => By.XPath($"//span[contains(@class, 'filterItem__name') and text()='{this.filterName}']");
 
         private By GridRows => By.CssSelector("div[class*='gridRow__grid-row-wrapper']");
 
@@ -57,6 +66,31 @@ namespace ReportPortal.Business.Pages
         public void WaitUntilExpectedRowsCount(int expectedCount)
         {
             this.driver.WaitUntilElementCountIs(this.GridRows, expectedCount);
+        }
+
+        public FiltersPage ClickSaveButton()
+        {
+            this.SaveButton.Click();
+            Thread.Sleep(1000);
+            return this;
+        }
+
+        public FiltersPage ClickRemoveActiveFilterButton()
+        {
+            this.DeleteActiveFilterButton.Click();
+            return this;
+        }
+
+        public FiltersPage WaitUntilFilterListItemIsDisplayed(string filterName)
+        {
+            this.filterName = filterName;
+            this.driver.WaitUntilElementIsVisible(this.FilterListLocator);
+            return this;
+        }
+
+        public void WaitUntilFilterListItemIsNotDisplayed()
+        {
+            this.driver.WaitUntilElementIsNotVisible(this.ActiveFiltersLocator);
         }
     }
 }

@@ -12,6 +12,6 @@ namespace ReportPortal.Business.DataSets
 
         public static string Description => "Description";
 
-        public static string Owner => "Owner";
+        public static string Failed => "Failed";
     }
 }

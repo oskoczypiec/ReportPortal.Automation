@@ -15,7 +15,7 @@ namespace ReportPortal.Business.DataSets
                     new object[] { FilterNames.Passed, "30", 1 },
                     new object[] { FilterNames.LaunchNumber, "3", 3 },
                     new object[] { FilterNames.Description, "Demo", 5 },
-                    new object[] { FilterNames.Owner, string.Empty, 5 },
+                    new object[] { FilterNames.Failed, "1", 4 },
                 };
             }
         }

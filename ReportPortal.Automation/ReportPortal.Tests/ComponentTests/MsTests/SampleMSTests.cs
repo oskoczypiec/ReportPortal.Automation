@@ -2,15 +2,17 @@
 // Copyright (c) EPAM. All rights reserved.
 // </copyright>
 
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace ReportPortal.Tests.ComponentTests
+[assembly: Parallelize(Workers = 4, Scope = ExecutionScope.ClassLevel)]
+
+namespace ReportPortal.Tests.ComponentTests.MsTest
 {
     using FluentAssertions;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using ReportPortal.Tests;
 
     [TestClass]
-    [assembly: Parallelize(Workers = 4, Scope = ExecutionScope.ClassLevel)]
     public class SampleMSTests : MsTestBase
     {
         [TestMethod]

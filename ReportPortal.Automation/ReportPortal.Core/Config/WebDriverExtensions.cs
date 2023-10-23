@@ -74,5 +74,21 @@ namespace ReportPortal.Core.Config
 
             wait.Until(d => d.GetElements(by).Count == expectedCount);
         }
+
+        public static void WaitUntilElementIsVisible(this IWebDriver driver, By by, int timeoutInSeconds = 10)
+        {
+            var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(timeoutInSeconds));
+            wait.Until(d => d.GetElement(by).Displayed == true);
+        }
+
+        public static void WaitUntilElementIsNotVisible(this IWebDriver driver, By by, int timeoutInSeconds = 10)
+        {
+            var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(timeoutInSeconds));
+            wait.Until(d =>
+            {
+                var elements = d.FindElements(by);
+                return elements.Count == 0 || elements.All(e => !e.Displayed);
+            });
+        }
     }
 }
