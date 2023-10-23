@@ -21,11 +21,16 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Selenium.Support" Version="4.14.0" />
     <PackageReference Include="Selenium.WebDriver" Version="4.14.0" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ReportPortal.Core\ReportPortal.Core.csproj" />
   </ItemGroup>
 
 </Project>

@@ -7,8 +7,8 @@ namespace ReportPortal.Tests.ComponentTests
     using FluentAssertions;
     using ReportPortal.Business.Pages;
     using ReportPortal.Core.Config;
-    using ReportPortal.Core.Tests;
     using ReportPortal.Core.Utilities;
+    using ReportPortal.Tests;
 
     [TestFixture]
     [Parallelizable(ParallelScope.Fixtures)]

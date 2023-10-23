@@ -12,16 +12,17 @@ namespace ReportPortal.Core.Config
     /// </summary>
     public static class ApplicationConfiguration
     {
-        private static IConfiguration? config;
+        public static IConfigurationRoot? configuration;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ApplicationConfiguration"/> class, loading application settings from 'appsettings.json'.
         /// </summary>
         public static void SetUp()
         {
-            config = new ConfigurationBuilder()
-                .AddJsonFile("appsettings.json")
-                .Build();
+            configuration = new ConfigurationBuilder()
+                 .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
+                 .AddJsonFile("appsettings.json")
+                 .Build();
         }
 
         /// <summary>
@@ -31,7 +32,7 @@ namespace ReportPortal.Core.Config
         /// <exception cref="ArgumentException">Thrown when the 'Browser' setting is missing or unsupported.</exception>
         public static BrowserEnums GetBrowser()
         {
-            var browser = config?["Browser"];
+            var browser = configuration?["Browser"];
 
             if (browser == null)
             {
@@ -45,7 +46,7 @@ namespace ReportPortal.Core.Config
 
         public static string GetUrl()
         {
-            var url = config?["URL"];
+            var url = configuration?["URL"];
 
             if (url == null)
             {

@@ -110,7 +110,7 @@
             Reporter class for generating test result report.
             </summary>
         </member>
-        <member name="M:ReportPortal.Core.Reporter.Reporter.AttachScreenshotIfFailed(OpenQA.Selenium.IWebDriver,NUnit.Framework.Interfaces.TestStatus,System.String)">
+        <member name="M:ReportPortal.Core.Reporter.Reporter.AttachScreenshotIfFailed(OpenQA.Selenium.IWebDriver,ReportPortal.Core.Enums.TestStatus,System.String)">
             <summary>
             Attaches a screenshot to the test report if the test has failed.
             </summary>

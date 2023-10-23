@@ -5,6 +5,7 @@
 namespace ReportPortal.Business.Pages
 {
     using OpenQA.Selenium;
+    using ReportPortal.Core.Config;
 
     public class LoginPage
     {
@@ -15,13 +16,13 @@ namespace ReportPortal.Business.Pages
             this.driver = driver;
         }
 
-        private IWebElement Logo => this.driver.FindElement(By.ClassName("loginPage__logo"));
+        private IWebElement Logo => this.driver.GetElement(By.ClassName("loginPage__logo"));
 
-        private IWebElement UserNameInput => this.driver.FindElement(By.Name("login"));
+        private IWebElement UserNameInput => this.driver.GetElement(By.Name("login"));
 
-        private IWebElement PasswordInput => this.driver.FindElement(By.Name("password"));
+        private IWebElement PasswordInput => this.driver.GetElement(By.Name("password"));
 
-        private IWebElement LoginButton => this.driver.FindElement(By.XPath("//*[contains(@class, 'bigButton')]"));
+        private IWebElement LoginButton => this.driver.GetElement(By.XPath("//*[contains(@class, 'bigButton')]"));
 
         public bool IsLogoVisible()
         {
@@ -48,6 +49,16 @@ namespace ReportPortal.Business.Pages
         public void PressTabOnUserNameInput()
         {
             this.UserNameInput.SendKeys(Keys.Tab);
+        }
+
+        public void LogInDefaultUser()
+        {
+            string? userName = ApplicationConfiguration.configuration?["User"];
+            string? password = ApplicationConfiguration.configuration?["Pass"];
+
+            this.SetUserName(userName!);
+            this.SetPassword(password!);
+            this.ClickLoginButton();
         }
     }
 }
