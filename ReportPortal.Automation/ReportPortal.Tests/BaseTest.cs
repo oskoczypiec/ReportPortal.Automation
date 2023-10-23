@@ -2,7 +2,7 @@
 // Copyright (c) EPAM. All rights reserved.
 // </copyright>
 
-namespace ReportPortal.Core.Tests
+namespace ReportPortal.Tests
 {
     using OpenQA.Selenium;
     using ReportPortal.Core.Config;
@@ -66,9 +66,10 @@ namespace ReportPortal.Core.Tests
         {
             var testName = TestContext.CurrentContext.Test.Name;
             var result = TestContext.CurrentContext.Result.Outcome.Status;
+            var enumParse = (Core.Enums.TestStatus)Enum.Parse(typeof(Core.Enums.TestStatus), result.ToString());
 
             Logger.Log.Info($"Test {testName} is {result}");
-            Reporter.AttachScreenshotIfFailed(this.driver!, result, testName);
+            Reporter.AttachScreenshotIfFailed(this.driver!, enumParse, testName);
 
             this.driver?.Quit();
             this.driver?.Dispose();
