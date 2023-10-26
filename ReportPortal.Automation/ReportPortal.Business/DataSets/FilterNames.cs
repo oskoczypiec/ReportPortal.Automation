@@ -13,5 +13,7 @@ namespace ReportPortal.Business.DataSets
         public static string Description => "Description";
 
         public static string Failed => "Failed";
+
+        public static object TotalToInvestigate => "Total to investigate";
     }
 }

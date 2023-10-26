@@ -7,6 +7,7 @@ namespace ReportPortal.Tests.ComponentTests.MsTest
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using ReportPortal.Business.DataSets;
     using ReportPortal.Business.Pages;
+    using ReportPortal.Business.Pages.Modal;
 
     [TestClass]
     public class MsFilterTests : MsTestBase
@@ -14,6 +15,7 @@ namespace ReportPortal.Tests.ComponentTests.MsTest
         private LoginPage loginPage;
         private MenuPage menuPage;
         private FiltersPage filtersPage;
+        private AddFilterModal addFilterModal;
 
         [TestInitialize]
         public void SetUp()
@@ -21,9 +23,17 @@ namespace ReportPortal.Tests.ComponentTests.MsTest
             this.loginPage = new LoginPage(this.driver!);
             this.menuPage = new MenuPage(this.driver!);
             this.filtersPage = new FiltersPage(this.driver!);
+            this.addFilterModal = new AddFilterModal(this.driver!);
 
             this.loginPage.LogInDefaultUser();
             this.menuPage.ClickFiltersButton();
+        }
+
+        [TestCleanup]
+        public void Cleanup()
+        {
+            this.menuPage.ClickFiltersButton();
+            this.menuPage.RemoveAllFilters();
         }
 
         [DataTestMethod]
@@ -45,6 +55,59 @@ namespace ReportPortal.Tests.ComponentTests.MsTest
                 .WaitUntilExpectedRowsCount(expectedRowsCount);
         }
 
+        [DataTestMethod]
+        [DynamicData(nameof(DifferentFilters))]
+        public void UserIsAbleToSaveFilter(string filterName, string value, int expectedRowsCount)
+        {
+            // Assembly
+            this.filtersPage
+                .ClickAddFilterButton()
+                .ClickMoreButton()
+                .SelectEntities(filterName)
+                .TypeValue(filterName, value)
+                .WaitUntilExpectedRowsCount(expectedRowsCount);
+
+            // Act
+            this.filtersPage
+                .ClickSaveButton();
+            this.addFilterModal
+                .WaitUntilModalHeaderIsDisplayed()
+                .SetFilterName(filterName)
+                .ClickAddFilterButton();
+
+            // Assert
+            this.filtersPage
+                .WaitUntilFilterListItemIsDisplayed(filterName);
+        }
+
+        [DataTestMethod]
+        [DynamicData(nameof(DifferentFilters))]
+        public void UserIsAbleToDeleteFilter(string filterName, string value, int expectedRowsCount)
+        {
+            // Assembly
+            this.filtersPage
+                .ClickAddFilterButton()
+                .ClickMoreButton()
+                .SelectEntities(filterName)
+                .TypeValue(filterName, value)
+                .WaitUntilExpectedRowsCount(expectedRowsCount);
+            this.filtersPage
+                .ClickSaveButton();
+            this.addFilterModal
+                .WaitUntilModalHeaderIsDisplayed()
+                .SetFilterName(filterName)
+                .ClickAddFilterButton();
+
+            // Act
+            this.filtersPage
+                .WaitUntilFilterListItemIsDisplayed(filterName)
+                .ClickRemoveActiveFilterButton();
+
+            // Assert
+            this.filtersPage
+                .WaitUntilFilterListItemIsNotDisplayed();
+        }
+
         private static IEnumerable<object[]> DifferentFilters
         {
             get
@@ -55,6 +118,7 @@ namespace ReportPortal.Tests.ComponentTests.MsTest
                     new object[] { FilterNames.LaunchNumber, "3", 3 },
                     new object[] { FilterNames.Description, "Demo", 5 },
                     new object[] { FilterNames.Failed, "1", 4 },
+                    new object[] { FilterNames.TotalToInvestigate, "1", 4 },
                 };
             }
         }
