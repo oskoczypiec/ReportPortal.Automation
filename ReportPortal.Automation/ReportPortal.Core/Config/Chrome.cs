@@ -22,7 +22,7 @@ namespace ReportPortal.Core.Config
             options.AddExcludedArgument("--enable-automation");
             options.AddArgument("--disable-popup-blocking");
             options.AddArgument("--no-sandbox");
-            options.AddArgument("--headless");
+            //options.AddArgument("--headless");
             options.AddArgument("--incognito");
 
             return new ChromeDriver(AppDomain.CurrentDomain.BaseDirectory, options);

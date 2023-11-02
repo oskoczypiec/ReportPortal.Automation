@@ -50,6 +50,7 @@ namespace ReportPortal.Business.Pages
 
         public FiltersPage TypeValue(string entityName, string value)
         {
+            this.entityName = entityName;
             this.InputConditional.Click();
             this.InputConditional.SendKeys(value);
             this.InputConditional.SendKeys(Keys.Enter);
