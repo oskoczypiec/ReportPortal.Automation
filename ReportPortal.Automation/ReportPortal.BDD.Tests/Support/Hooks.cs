@@ -40,7 +40,6 @@ namespace ReportPortal.BDD.Tests.Support
             objectContainer.RegisterInstanceAs(driver);
             this.driver.Navigate().GoToUrl("http://localhost:8080/ui/#login");
             Logger.Log.Info($"Running test: {TestContext.CurrentContext.Test.Name}");
-
         }
 
         [AfterScenario]

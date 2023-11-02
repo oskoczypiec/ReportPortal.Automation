@@ -7,6 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <SpecFlowObsoleteCodeBehindFiles Remove="Features\Filters - Copy.feature.cs" />
+    <SpecFlowObsoleteCodeBehindFiles Remove="Features\FiltersSave - Copy.feature.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.7.2" />
     <PackageReference Include="Selenium.WebDriver" Version="4.14.0" />
     <PackageReference Include="Selenium.WebDriver.ChromeDriver" Version="118.0.5993.7000" />
@@ -25,6 +30,26 @@
   <ItemGroup>
     <ProjectReference Include="..\ReportPortal.Business\ReportPortal.Business.csproj" />
     <ProjectReference Include="..\ReportPortal.Core\ReportPortal.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Features\FiltersDelete.feature.cs">
+      <DependentUpon>FiltersDelete.feature</DependentUpon>
+    </Compile>
+    <Compile Update="Features\FiltersSave.feature.cs">
+      <DependentUpon>FiltersSave.feature</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <SpecFlowFeatureFiles Update="Features\FiltersDelete.feature">
+      <Visible>$(UsingMicrosoftNETSdk)</Visible>
+      <CodeBehindFile>%(RelativeDir)%(Filename).feature$(DefaultLanguageSourceExtension)</CodeBehindFile>
+    </SpecFlowFeatureFiles>
+    <SpecFlowFeatureFiles Update="Features\FiltersSave.feature">
+      <Visible>$(UsingMicrosoftNETSdk)</Visible>
+      <CodeBehindFile>%(RelativeDir)%(Filename).feature$(DefaultLanguageSourceExtension)</CodeBehindFile>
+    </SpecFlowFeatureFiles>
   </ItemGroup>
 
 </Project>
