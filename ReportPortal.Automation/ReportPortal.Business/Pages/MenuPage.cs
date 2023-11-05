@@ -33,7 +33,7 @@ namespace ReportPortal.Business.Pages
         public void RemoveAllFilters()
         {
             var elements = this.driver.GetElements(this.DeleteFilterButtonsLocator);
-            if (elements.Count > 0)
+            if (elements.Count > 0 && elements[0].Displayed)
             {
                 foreach (var element in elements)
                 {
