@@ -6,6 +6,8 @@ namespace ReportPortal.Core.Config
 {
     using Microsoft.Extensions.Configuration;
     using ReportPortal.Core.Enums;
+    using ReportPortal.Core.Interfaces;
+    using ReportPortal.Core.Utilities;
 
     /// <summary>
     /// Configuration manager for retrieving and managing application settings.
@@ -17,13 +19,27 @@ namespace ReportPortal.Core.Config
         /// <summary>
         /// Initializes a new instance of the <see cref="ApplicationConfiguration"/> class, loading application settings from 'appsettings.json'.
         /// </summary>
-        public static void SetUp()
+        public static IConfigurationRoot SetUp()
         {
             configuration = new ConfigurationBuilder()
                  .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
                  .AddJsonFile("appsettings.json")
+                 .AddEnvironmentVariables()
                  .Build();
+            AssignValues();
+
+            return configuration;
         }
+        /*
+        public static T GetConfiguration<T>()
+        {
+            var config = ObjectFactory.Get<T>();
+            var setUp = SetUp();
+            setUp.GetSection(nameof(T).Name).Bind(config);
+            return ObjectFactory.Get<T>();
+        }
+        */
+
 
         /// <summary>
         /// Retrieves the configured web browser from application settings.
@@ -44,7 +60,7 @@ namespace ReportPortal.Core.Config
             }
         }
 
-        public static string GetUrl()
+        public static string GetBaseUrl()
         {
             var url = configuration?["URL"];
 
@@ -56,6 +72,15 @@ namespace ReportPortal.Core.Config
             {
                 return url;
             }
+        }
+
+        public static void AssignValues()
+        {
+            Settings.URL = configuration?["URL"];
+            Settings.User = configuration?["User"];
+            Settings.Pass = configuration?["Pass"];
+            Settings.Browser = configuration?["Browser"];
+            Settings.BearerKey = configuration?["BearerKey"];
         }
     }
 }

@@ -21,7 +21,7 @@ namespace ReportPortal.Tests.ComponentTests
         public void Setup()
         {
             this.loginPage = new LoginPage(this.driver!);
-            this.applicationUrl = ApplicationConfiguration.GetUrl();
+            this.applicationUrl = ApplicationConfiguration.GetBaseUrl();
         }
 
         [Test]

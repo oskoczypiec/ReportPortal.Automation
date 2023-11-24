@@ -54,7 +54,7 @@ namespace ReportPortal.Tests
         public void Initialize()
         {
             this.driver = WebDriverFactory.CreateDriver();
-            this.driver.Navigate().GoToUrl("http://localhost:8080/ui/#login");
+            this.driver.Navigate().GoToUrl($"{Settings.URL}/ui/#login");
             Logger.Log.Info($"Running test: {TestContext.CurrentContext.Test.Name}");
         }
 
