@@ -1,23 +1,42 @@
-﻿using ReportPortal.Core.API;
+﻿using Newtonsoft.Json;
+using ReportPortal.Core.API;
+using ReportPortal.Core.API.Models;
+using ReportPortal.Core.Config;
 
 namespace ReportPortal.Tests.API
 {
     public class BaseApiTest
     {
-        private Endpoints endpoints;
+        private FiltersEndpoints endpoints;
+        private DemoDataGeneratedModel dataGenerated;
 
         [OneTimeSetUp] 
-        public void Init() 
-        { 
-            // TODO: prepare data generation - doesnt work
-            endpoints = new Endpoints();
-            endpoints.GenerateDemoData();
+        public async Task Init() 
+        {
+            ApplicationConfiguration.SetUp();
+            endpoints = new FiltersEndpoints();
+            var response = await endpoints.GenerateDemoData();
+            dataGenerated = JsonConvert.DeserializeObject<DemoDataGeneratedModel>(response.Content);
         }
 
         [OneTimeTearDown]
-        public void TearDown()
+        public async Task TearDown()
         {
-            // TODO: prepare clearing up everything
+            LaunchRequestModel launchRequest = new LaunchRequestModel()
+            {
+                LaunchIds = dataGenerated.LaunchIds,
+            };
+            var responseFilters = await endpoints.GetFilter();
+            var actualFilters = JsonConvert.DeserializeObject<FiltersRootModel>(responseFilters.Content!);
+            var filtersIds = actualFilters.Content.Select(x => x.Id).ToList();
+
+            foreach(var filterId in filtersIds)
+            {
+                await endpoints.DeleteFiltersById(filterId);
+
+            }
+            await endpoints.DeleteDashboardById(id: dataGenerated.DashboardId.ToString());
+            await endpoints.DeleteLaunchByIds(launchRequest);
         }
     }
 }

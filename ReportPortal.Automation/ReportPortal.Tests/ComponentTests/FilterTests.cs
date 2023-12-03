@@ -32,8 +32,8 @@ namespace ReportPortal.Tests.ComponentTests
         [TearDown]
         public void TearDown()
         {
-            this.menuPage.ClickFiltersButton();
-            this.menuPage.RemoveAllFilters();
+            //this.menuPage.ClickFiltersButton();
+            //this.menuPage.RemoveAllFilters();
         }
 
         [Test]

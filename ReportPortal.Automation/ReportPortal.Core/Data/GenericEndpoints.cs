@@ -2,6 +2,6 @@
 {
     public class GenericEndpoints
     {
-        public static string GenerateDemoData => "/api/v1/demo/aleksandra_skoczypiec_personal/generate";
+        public static string GenerateDemoData(string project = "default_personal") => $"/api/v1/demo/{project}/generate";
     }
 }

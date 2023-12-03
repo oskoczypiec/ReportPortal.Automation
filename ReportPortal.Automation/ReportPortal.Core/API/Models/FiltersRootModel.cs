@@ -1,13 +1,11 @@
-﻿// <copyright file="FiltersRoot.cs" company="EPAM">
+﻿// <copyright file="FiltersRootModel.cs" company="EPAM">
 // Copyright (c) EPAM. All rights reserved.
 // </copyright>
 
 namespace ReportPortal.Core.API.Models
 {
     using Newtonsoft.Json;
-    using System;
 
-    // Root myDeserializedClass = JsonConvert.DeserializeObject<Root>(myJsonResponse);
     public class Condition
     {
         [JsonProperty("filteringField")]
@@ -39,6 +37,9 @@ namespace ReportPortal.Core.API.Models
 
         [JsonProperty("type")]
         public string Type { get; set; }
+
+        [JsonProperty("description")]
+        public string Description { get; set; }
     }
 
     public class Order
@@ -65,12 +66,45 @@ namespace ReportPortal.Core.API.Models
         public int TotalPages { get; set; }
     }
 
-    public class FiltersRoot
+    public class FiltersRootModel
     {
         [JsonProperty("content")]
         public List<Content> Content { get; set; }
 
         [JsonProperty("page")]
         public Page Page { get; set; }
+    }
+
+    public class Element
+    {
+        [JsonProperty("conditions")]
+        public List<Condition> Conditions { get; set; }
+
+        [JsonProperty("description")]
+        public string Description { get; set; }
+
+        [JsonProperty("id")]
+        public string Id { get; set; }
+
+        [JsonProperty("name")]
+        public string Name { get; set; }
+
+        [JsonProperty("orders")]
+        public List<Order> Orders { get; set; }
+
+        [JsonProperty("type")]
+        public string Type { get; set; }
+    }
+
+    public class ElementsRoot
+    {
+        [JsonProperty("elements")]
+        public List<Element> Elements { get; set; }
+    }
+
+    public class FiltersId
+    {
+        [JsonProperty("id")]
+        public int Id { get; set; }
     }
 }

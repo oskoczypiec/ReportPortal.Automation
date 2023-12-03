@@ -50,14 +50,30 @@ namespace ReportPortal.Core.API
             return response;
         }
 
-        public Task<RestResponse> PostResponseContent(string url)
+        public Task<RestResponse> PostResponseContent(string url, object? body = null)
         {
             var responseGetUserToken = GetUserToken().Result;
+            var requestBody = body == null ? "{}" : body;
             var token = JsonConvert.DeserializeObject<GetAuthModel>(responseGetUserToken.Content).AccessToken;
             this.Client = Uri.IsWellFormedUriString(url, UriKind.Absolute) ? new RestClient(url) : new RestClient($"{this.baseUrl}{url}");
             this.Request = new RestRequest();
             this.Request.AddHeader("Authorization", $"Bearer {token}");
+            this.Request.AddBody(requestBody);
             var response = this.Client.ExecutePostAsync(this.Request);
+
+            return response;
+        }
+
+        public Task<RestResponse> ExecuteRequest(Method method, string url, object? body = null)
+        {
+            var responseGetUserToken = GetUserToken().Result;
+            var requestBody = body == null ? "{}" : body;
+            var token = JsonConvert.DeserializeObject<GetAuthModel>(responseGetUserToken.Content).AccessToken;
+            this.Client = Uri.IsWellFormedUriString(url, UriKind.Absolute) ? new RestClient(url) : new RestClient($"{this.baseUrl}{url}");
+            this.Request = new RestRequest();
+            this.Request.AddHeader("Authorization", $"Bearer {token}");
+            this.Request.AddBody(requestBody);
+            var response = this.Client.ExecuteAsync(this.Request, method);
 
             return response;
         }

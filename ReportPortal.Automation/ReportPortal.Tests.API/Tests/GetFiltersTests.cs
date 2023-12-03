@@ -1,20 +1,20 @@
+using FluentAssertions;
 using Newtonsoft.Json;
 using ReportPortal.Business.DataSets;
 using ReportPortal.Core.API;
 using ReportPortal.Core.API.Models;
-using FluentAssertions;
 
-namespace ReportPortal.Tests.API
+namespace ReportPortal.Tests.API.Tests
 {
-    public class Tests : BaseApiTest
+    public class GetFiltersTests : BaseApiTest
     {
-        private Endpoints endpoints;
+        private FiltersEndpoints filtersEndpoints;
         private FiltersDataProvider filtersDataProvider;
 
         [SetUp]
         public void Setup()
         {
-            endpoints = new Endpoints();
+            filtersEndpoints = new FiltersEndpoints();
             filtersDataProvider = new FiltersDataProvider();
         }
 
@@ -22,11 +22,11 @@ namespace ReportPortal.Tests.API
         public async Task Get_Success_All_Filters()
         {
             // Assembly
-            var filter = await endpoints.GetFilter();
+            var response = await filtersEndpoints.GetFilter();
 
             // Act
-            var actualFilterModel = JsonConvert.DeserializeObject<FiltersRoot>(filter.Content!);
-            var expectedFilterModel = filtersDataProvider.GenerateDefaultGetFiltersResponse();
+            var actualFilterModel = JsonConvert.DeserializeObject<FiltersRootModel>(response.Content!);
+            var expectedFilterModel = filtersDataProvider.GenerateRealFilterResponse(actualFilterModel);
 
             // Assert
             actualFilterModel.Should().BeEquivalentTo(expectedFilterModel);
@@ -36,10 +36,10 @@ namespace ReportPortal.Tests.API
         public async Task Get_Failure_All_Filters()
         {
             // Assembly
-            var filter = await endpoints.GetFilter();      
+            var filter = await filtersEndpoints.GetFilter();      
 
             // Act
-            var actualFilterModel = JsonConvert.DeserializeObject<FiltersRoot>(filter.Content!);
+            var actualFilterModel = JsonConvert.DeserializeObject<FiltersRootModel>(filter.Content!);
             var expectedFilterModel = filtersDataProvider.GenerateRandomGetFiltersResponse();
 
             // Assert
