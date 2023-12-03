@@ -30,6 +30,9 @@ namespace ReportPortal.Tests.API.Tests
             // Assert
             result.Should().NotBeNull();
             result.Should().BeEquivalentTo(expectedFiltersRootModel);
+
+            mockFilterApiClient.Verify(x => x.GetFiltersAsync(), Times.Once);
+            mockFilterApiClient.VerifyNoOtherCalls();
         }
     }
 }
