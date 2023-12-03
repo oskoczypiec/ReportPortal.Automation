@@ -29,6 +29,7 @@ namespace ReportPortal.Core.API
             return response;
         }
 
+
         public async Task<RestResponse> DeleteLaunchByIds(LaunchRequestModel requestModel, string project = "default_personal")
         {
             var request = new RequestFactory().GetRequest(LaunchEndpoint.GetAllLaunchesByProjectName(project), Method.Delete);
