@@ -25,6 +25,7 @@ namespace ReportPortal.Core.Logger
             }
 
             this.logger = new LoggerConfiguration()
+                .Enrich.WithThreadId()
                 .MinimumLevel.Debug()
                 .WriteTo.Console()
                 .WriteTo.File(LogFilePath)
