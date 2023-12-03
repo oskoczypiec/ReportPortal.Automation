@@ -23,17 +23,9 @@ namespace ReportPortal.Core.Utilities
             return RandomString(Numbers, size);
         }
 
-        public static string RandomString(string source, int size)
+        public static int RandomNumber(int min = 0, int max = 100)
         {
-            var builder = new StringBuilder();
-            var length = source.Length;
-
-            for (var i = 0; i < size; i++)
-            {
-                builder.Append(source[Rnd.Next(0, length)]);
-            }
-
-            return builder.ToString();
+            return new Random(min).Next(min, max);
         }
 
         public static string RandomPassword()
@@ -47,6 +39,18 @@ namespace ReportPortal.Core.Utilities
             string domainName = "gmail.com")
         {
             return $"{loginStartWith}{prefix}_{Util.GetCurrentDateTime()}@{domainName}";
+        }
+        private static string RandomString(string source, int size)
+        {
+            var builder = new StringBuilder();
+            var length = source.Length;
+
+            for (var i = 0; i < size; i++)
+            {
+                builder.Append(source[Rnd.Next(0, length)]);
+            }
+
+            return builder.ToString();
         }
     }
 }
