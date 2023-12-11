@@ -115,7 +115,7 @@ namespace ReportPortal.Tests.ComponentTests.MsTest
                 return new[]
                 {
                     new object[] { FilterNames.Passed, "30", 1 },
-                    new object[] { FilterNames.LaunchNumber, "3", 3 },
+                    new object[] { FilterNames.Skipped, "3", 3 },
                     new object[] { FilterNames.Description, "Demo", 5 },
                     new object[] { FilterNames.Failed, "1", 4 },
                     new object[] { FilterNames.TotalToInvestigate, "1", 4 },

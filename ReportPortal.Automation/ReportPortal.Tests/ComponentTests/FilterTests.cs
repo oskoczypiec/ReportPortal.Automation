@@ -9,7 +9,6 @@ namespace ReportPortal.Tests.ComponentTests
     using ReportPortal.Business.Pages.Modal;
 
     [TestFixture]
-    [Parallelizable(ParallelScope.Fixtures)]
     public class FilterTests : BaseTest
     {
         private LoginPage loginPage;

@@ -8,12 +8,12 @@ namespace ReportPortal.Business.DataSets
     {
         public static string Passed => "Passed";
 
-        public static string LaunchNumber => "Launch number";
+        public static string Skipped => "Skipped";
 
         public static string Description => "Description";
 
         public static string Failed => "Failed";
 
-        public static object TotalToInvestigate => "Total to investigate";
+        public static object TotalToInvestigate => "To investigate";
     }
 }
