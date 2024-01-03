@@ -1,4 +1,3 @@
-using OpenQA.Selenium;
 using ReportPortal.Business.Pages;
 using ReportPortal.Business.Pages.Modal;
 

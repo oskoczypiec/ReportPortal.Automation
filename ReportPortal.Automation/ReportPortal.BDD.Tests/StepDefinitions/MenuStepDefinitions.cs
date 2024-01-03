@@ -1,4 +1,3 @@
-using OpenQA.Selenium;
 using ReportPortal.Business.Pages;
 
 namespace ReportPortal.BDD.Tests.StepDefinitions
