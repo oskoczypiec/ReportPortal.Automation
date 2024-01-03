@@ -33,7 +33,7 @@ namespace ReportPortal.Core.API.Services
         public async Task<RestResponse> GetUserToken()
         {
             var request = new RestRequest("/uat/sso/oauth/token", Method.Post)
-                .AddHeader("Authorization", "Basic " + "dWk6dWltYW4=")
+                .AddHeader("Authorization", "Basic dWk6dWltYW4=")
                 .AddParameter("username", Settings.User)
                 .AddParameter("password", Settings.Pass)
                 .AddParameter("grant_type", "password");

@@ -1,4 +1,5 @@
 ﻿using FluentAssertions;
+using FluentAssertions.Execution;
 using Newtonsoft.Json;
 using ReportPortal.Business.DataSets;
 using ReportPortal.Core.API;
@@ -23,7 +24,7 @@ namespace ReportPortal.Tests.API.Tests
         [Test]
         public async Task Delete_Success()
         {
-            // Assembly
+            // Arrange
             var expectedFilterModel = filtersDataProvider.GenerateRandomAddFiltersResponse();
             var response = await filtersEndpoints.PostFilter(expectedFilterModel);
             var actualResponse = JsonConvert.DeserializeObject<FiltersId>(response.Content);
@@ -41,7 +42,7 @@ namespace ReportPortal.Tests.API.Tests
         [Test]
         public async Task Delete_Failure()
         {
-            // Assembly
+            // Arrange
             var randomId = RandomHelper.RandomNumber();
 
             // Act
@@ -49,6 +50,7 @@ namespace ReportPortal.Tests.API.Tests
             var actualResponse = JsonConvert.DeserializeObject<ErrorModel>(response.Content!);
 
             // Assert
+            response.StatusCode.Should().Be(System.Net.HttpStatusCode.NoContent);
             actualResponse.Message.Should().Contain(ErrorMessages.FilterNotFoundError(randomId.ToString()));
         }
     }
