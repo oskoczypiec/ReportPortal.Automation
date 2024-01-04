@@ -9,8 +9,8 @@ namespace ReportPortal.BDD.Tests.StepDefinitions
         private IWebDriver _driver;
         private FiltersPage filtersPage => new FiltersPage(_driver);
         private AddFilterModal addFilterModal => new AddFilterModal(_driver);
-        public FiltersStepDefinitions(IWebDriver driver) 
-        { 
+        public FiltersStepDefinitions(IWebDriver driver)
+        {
             this._driver = driver;
         }
 
@@ -90,7 +90,7 @@ namespace ReportPortal.BDD.Tests.StepDefinitions
         [Then(@"no active filter is displayed")]
         public void ThenNoActiveFilterIsDisplayed()
         {
-            filtersPage.WaitUntilFilterListItemIsNotDisplayed();
+            filtersPage.WaitUntilFilterListIsNotDisplayed();
         }
     }
 }

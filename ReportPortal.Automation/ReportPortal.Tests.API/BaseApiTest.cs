@@ -10,8 +10,8 @@ namespace ReportPortal.Tests.API
         private FiltersEndpoints endpoints;
         private DemoDataGeneratedModel dataGenerated;
 
-        [OneTimeSetUp] 
-        public async Task Init() 
+        [OneTimeSetUp]
+        public async Task Init()
         {
             ApplicationConfiguration.SetUp();
             endpoints = new FiltersEndpoints();
@@ -30,7 +30,7 @@ namespace ReportPortal.Tests.API
             var actualFilters = JsonConvert.DeserializeObject<FiltersRootModel>(responseFilters.Content!);
             var filtersIds = actualFilters.Content.Select(x => x.Id).ToList();
 
-            foreach(var filterId in filtersIds)
+            foreach (var filterId in filtersIds)
             {
                 await endpoints.DeleteFiltersById(filterId);
 

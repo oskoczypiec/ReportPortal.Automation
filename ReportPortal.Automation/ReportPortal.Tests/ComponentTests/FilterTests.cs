@@ -4,9 +4,12 @@
 
 namespace ReportPortal.Tests.ComponentTests
 {
+    using FluentAssertions;
     using ReportPortal.Business.DataSets;
     using ReportPortal.Business.Pages;
     using ReportPortal.Business.Pages.Modal;
+    using ReportPortal.Core.Config;
+    using ReportPortal.Core.Utilities;
 
     [TestFixture]
     public class FilterTests : BaseTest
@@ -31,15 +34,13 @@ namespace ReportPortal.Tests.ComponentTests
         [TearDown]
         public void TearDown()
         {
-            //this.menuPage.ClickFiltersButton();
-            //this.menuPage.RemoveAllFilters();
         }
 
         [Test]
         [TestCaseSource(typeof(FilterDataSet), nameof(FilterDataSet.DifferentFilters))]
         public void UserIsAbleToAddAFilter(string filterName, string value, int expectedRowsCount)
         {
-            // Assembly
+            // Arrange
             this.filtersPage
                 .ClickAddFilterButton()
                 .ClickMoreButton();
@@ -58,7 +59,7 @@ namespace ReportPortal.Tests.ComponentTests
         [TestCaseSource(typeof(FilterDataSet), nameof(FilterDataSet.DifferentFilters))]
         public void UserIsAbleToSaveFilter(string filterName, string value, int expectedRowsCount)
         {
-            // Assembly
+            // Arrange
             this.filtersPage
                 .ClickAddFilterButton()
                 .ClickMoreButton()
@@ -83,7 +84,7 @@ namespace ReportPortal.Tests.ComponentTests
         [TestCaseSource(typeof(FilterDataSet), nameof(FilterDataSet.DifferentFilters))]
         public void UserIsAbleToDeleteFilter(string filterName, string value, int expectedRowsCount)
         {
-            // Assembly
+            // Arrange
             this.filtersPage
                 .ClickAddFilterButton()
                 .ClickMoreButton()
@@ -104,7 +105,154 @@ namespace ReportPortal.Tests.ComponentTests
 
             // Assert
             this.filtersPage
-                .WaitUntilFilterListItemIsNotDisplayed();
+                .WaitUntilFilterListIsNotDisplayed();
+        }
+
+        [Test]
+        [TestCaseSource(typeof(FilterDataSet), nameof(FilterDataSet.DifferentFilters))]
+        public void UserIsAbleToEditAFilter(string filterName, string value)
+        {
+            // Arrange
+            var randomName = RandomHelper.AlphabeticalString(5);
+            this.filtersPage
+                .ClickAddFilterButton()
+                .ClickMoreButton()
+                .SelectEntities(filterName)
+                .TypeValue(filterName, value);
+
+            // Act
+            this.filtersPage
+                .ClickSaveButton();
+            this.addFilterModal
+                .WaitUntilModalHeaderIsDisplayed()
+                .SetFilterName(filterName)
+                .ClickAddFilterButton();
+
+            this.filtersPage.ClickEditButton();
+            this.addFilterModal
+                .WaitUntilModalHeaderIsDisplayed()
+                .SetFilterName(randomName)
+                .ClickUpdateFilterButton();
+
+            // Assert
+            this.filtersPage
+                .WaitUntilFilterListItemIsDisplayed(randomName);
+        }
+
+        [Test]
+        [TestCaseSource(typeof(FilterDataSet), nameof(FilterDataSet.DifferentFilters))]
+        public void UserIsAbleToCloneAFilter(string filterName, string value, int temp)
+        {
+            // Arrange
+            var expectedName = $"Copy {filterName}";
+            this.filtersPage
+                .ClickAddFilterButton()
+                .ClickMoreButton()
+                .SelectEntities(filterName)
+                .TypeValue(filterName, value);
+
+            // Act
+            this.filtersPage
+                .ClickSaveButton();
+            this.addFilterModal
+                .WaitUntilModalHeaderIsDisplayed()
+                .SetFilterName(filterName)
+                .ClickAddFilterButton();
+            this.filtersPage
+               .WaitUntilFilterListItemIsDisplayed(filterName);
+            this.filtersPage.ClickCloneFilterButton();
+
+            // Assert
+            this.filtersPage
+                .WaitUntilFilterListItemIsDisplayed(expectedName);
+        }
+
+        [Test]
+        public void ResizeElementUsingJavaScript()
+        {
+            // Arrange
+            var expectedHeight = 300;
+            var expectedWidth = 400;
+
+            this.filtersPage
+                .ClickAddFilterButton()
+                .ClickDropdownButton();
+
+            // Act
+            WebDriverExtensions.ResizeElementUsingJavaScript(this.driver!, expectedWidth, expectedHeight, this.filtersPage.GetDropdownComponent());
+
+            // Assert
+            this.filtersPage.GetDropdownComponent().Size.Height.Should().Be(expectedHeight);
+            this.filtersPage.GetDropdownComponent().Size.Width.Should().Be(expectedWidth);
+        }
+
+        [Test]
+        public void DropdownIsDisplayedWhenActionClick()
+        {
+            // Arrange
+            this.filtersPage
+                .ClickAddFilterButton();
+
+            // Act
+            WebDriverExtensions.ClickOnElementUsingActions(this.driver!, this.filtersPage.GetDropdownButton());
+
+            // Assert
+            this.filtersPage.GetDropdownComponent().Displayed.Should().BeTrue();
+        }
+
+        [Test]
+        public void ScrollToElement()
+        {
+            // Arrange
+            this.filtersPage
+                .ClickAddFilterButton();
+            var element = this.filtersPage.GetNthResultRow(4);
+
+            // Act
+            WebDriverExtensions.ScrollToElement(this.driver!, element);
+
+            // Assert
+            WebDriverExtensions.IsElementInView(this.driver!, element).Should().BeTrue();
+        }
+
+        [Test]
+        [TestCase(true)]
+        [TestCase(false)]
+        public void UserIsAbleToEnableOrDisableAFilter(bool isDisplayed)
+        {
+            // Arrange
+            var filterName = "Passed";
+            var value = "30";
+            this.filtersPage
+                .ClickAddFilterButton()
+                .ClickMoreButton();
+
+            // Act
+            this.filtersPage
+                .SelectEntities(filterName)
+                .TypeValue(filterName, value);
+            this.filtersPage
+                .ClickSaveButton();
+            this.addFilterModal
+                .WaitUntilModalHeaderIsDisplayed()
+                .SetFilterName(filterName)
+                .ClickAddFilterButton();
+            this.menuPage.ClickFiltersButton();
+
+            // Assert
+            this.filtersPage.SetDisplayLaunches(isDisplayed, filterName);
+            this.filtersPage
+                .ClickAddFilterButton();
+            if (isDisplayed)
+            {
+                this.filtersPage
+                    .WaitUntilFilterListItemIsDisplayed(filterName);
+            }
+            else
+            {
+                this.filtersPage
+                    .WaitUntilFilterListItemIsNotDisplayed(filterName);
+            }
         }
     }
 }

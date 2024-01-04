@@ -22,6 +22,7 @@ namespace ReportPortal.Core.Config
             options.AddExcludedArgument("--enable-automation");
             options.AddArgument("--disable-popup-blocking");
             options.AddArgument("--no-sandbox");
+            options.AddArgument("--start-maximized");
             options.AddArgument("--headless");
             options.AddArgument("--incognito");
 

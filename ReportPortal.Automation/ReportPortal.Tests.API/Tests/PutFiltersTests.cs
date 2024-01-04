@@ -24,7 +24,7 @@ namespace ReportPortal.Tests.API.Tests
         [Test]
         public async Task Put_Success_Filter()
         {
-            // Assembly
+            // Arrange
             var descriptionText = "PUT test";
             var postFilterModel = filtersDataProvider.GenerateRandomAddFiltersResponse();
             var putFilterModel = filtersDataProvider.GenerateRandomAddFiltersResponse();
@@ -33,7 +33,7 @@ namespace ReportPortal.Tests.API.Tests
             var postedFilterId = JsonConvert.DeserializeObject<FiltersId>(postedFilter.Content!).Id.ToString();
 
             putFilterModel.Description = descriptionText;
- 
+
             // Act
             var response = filtersEndpoints.PutFilterById(putFilterModel, postedFilterId);
             var getFilters = await filtersEndpoints.GetFilterNames();
@@ -47,7 +47,7 @@ namespace ReportPortal.Tests.API.Tests
         [Test]
         public async Task Put_Failure_Not_Existing_Filter()
         {
-            // Assembly
+            // Arrange
             var putFilterModel = filtersDataProvider.GenerateRandomAddFiltersResponse();
             var randomId = RandomHelper.RandomNumber().ToString();
 
@@ -63,7 +63,7 @@ namespace ReportPortal.Tests.API.Tests
         [Test]
         public async Task Put_Failure_Incorrect_Body()
         {
-            // Assembly
+            // Arrange
             var putFilterModel = filtersDataProvider.GenerateIncorrectAddFilters();
             var randomId = RandomHelper.RandomNumber().ToString();
             var conditionText = putFilterModel.Conditions.First().ConditionText;

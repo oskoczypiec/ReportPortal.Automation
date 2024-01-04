@@ -23,7 +23,7 @@ namespace ReportPortal.Tests.API.Tests
         [Test]
         public async Task Post_Success_Filter()
         {
-            // Assembly
+            // Arrange
             var expectedFilterModel = filtersDataProvider.GenerateRandomAddFiltersResponse();
             var response = await filtersEndpoints.PostFilter(expectedFilterModel);
 
@@ -39,7 +39,7 @@ namespace ReportPortal.Tests.API.Tests
         [Test]
         public async Task Post_Failure_Filter_Empty_Filter()
         {
-            // Assembly
+            // Arrange
             var expectedFilterModel = new NewFilterModel();
             var response = await filtersEndpoints.PostFilter(expectedFilterModel);
 
@@ -54,7 +54,7 @@ namespace ReportPortal.Tests.API.Tests
         [Test]
         public async Task Post_Failure_Filter_Wrong_Type()
         {
-            // Assembly
+            // Arrange
             var expectedFilterModel = filtersDataProvider.GenerateIncorrectAddFilters();
             var response = await filtersEndpoints.PostFilter(expectedFilterModel);
 

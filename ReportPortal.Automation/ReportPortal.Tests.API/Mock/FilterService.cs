@@ -11,7 +11,7 @@ namespace ReportPortal.Tests.API.Mock
             _filterApi = filterApi;
         }
 
-        public Task <FiltersRootModel> GetFilters()
+        public Task<FiltersRootModel> GetFilters()
         {
             // Your implementation that calls the filter API
             return _filterApi.GetFiltersAsync();

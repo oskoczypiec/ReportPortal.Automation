@@ -1,10 +1,14 @@
-﻿using Newtonsoft.Json;
-using ReportPortal.Core.API.Models;
-using ReportPortal.Core.Config;
-using RestSharp;
+﻿// <copyright file="RequestFactory.cs" company="EPAM">
+// Copyright (c) EPAM. All rights reserved.
+// </copyright>
 
 namespace ReportPortal.Core.API.Services
 {
+    using Newtonsoft.Json;
+    using ReportPortal.Core.API.Models;
+    using ReportPortal.Core.Config;
+    using RestSharp;
+
     public class RequestFactory
     {
         private RestClient? Client { get; set; }
