@@ -1,4 +1,4 @@
-﻿// <copyright file="Endpoints.cs" company="EPAM">
+﻿// <copyright file="FiltersEndpoints.cs" company="EPAM">
 // Copyright (c) EPAM. All rights reserved.
 // </copyright>
 
@@ -10,7 +10,6 @@ namespace ReportPortal.Core.API
     using ReportPortal.Core.Config;
     using ReportPortal.Core.Data;
     using RestSharp;
-    using System;
 
     public class FiltersEndpoints : BaseService
     {

@@ -21,7 +21,7 @@ namespace ReportPortal.Tests.API.Tests
         [Test]
         public async Task Get_Success_All_Filters()
         {
-            // Assembly
+            // Arrange
             var response = await filtersEndpoints.GetFilter();
 
             // Act
@@ -35,8 +35,8 @@ namespace ReportPortal.Tests.API.Tests
         [Test]
         public async Task Get_Failure_All_Filters()
         {
-            // Assembly
-            var filter = await filtersEndpoints.GetFilter();      
+            // Arrange
+            var filter = await filtersEndpoints.GetFilter();
 
             // Act
             var actualFilterModel = JsonConvert.DeserializeObject<FiltersRootModel>(filter.Content!);

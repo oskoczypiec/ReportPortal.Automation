@@ -40,7 +40,7 @@ namespace ReportPortal.Tests.ComponentTests.MsTest
         [DynamicData(nameof(DifferentFilters))]
         public void UserIsAbleToAddAFilter(string filterName, string value, int expectedRowsCount)
         {
-            // Assembly
+            // Arrange
             this.filtersPage
                 .ClickAddFilterButton()
                 .ClickMoreButton();
@@ -59,7 +59,7 @@ namespace ReportPortal.Tests.ComponentTests.MsTest
         [DynamicData(nameof(DifferentFilters))]
         public void UserIsAbleToSaveFilter(string filterName, string value, int expectedRowsCount)
         {
-            // Assembly
+            // Arrange
             this.filtersPage
                 .ClickAddFilterButton()
                 .ClickMoreButton()
@@ -84,7 +84,7 @@ namespace ReportPortal.Tests.ComponentTests.MsTest
         [DynamicData(nameof(DifferentFilters))]
         public void UserIsAbleToDeleteFilter(string filterName, string value, int expectedRowsCount)
         {
-            // Assembly
+            // Arrange
             this.filtersPage
                 .ClickAddFilterButton()
                 .ClickMoreButton()
@@ -105,7 +105,7 @@ namespace ReportPortal.Tests.ComponentTests.MsTest
 
             // Assert
             this.filtersPage
-                .WaitUntilFilterListItemIsNotDisplayed();
+                .WaitUntilFilterListIsNotDisplayed();
         }
 
         private static IEnumerable<object[]> DifferentFilters
