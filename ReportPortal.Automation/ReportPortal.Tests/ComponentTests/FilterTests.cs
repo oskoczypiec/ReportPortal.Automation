@@ -5,6 +5,7 @@
 namespace ReportPortal.Tests.ComponentTests
 {
     using FluentAssertions;
+    using FluentAssertions.Execution;
     using ReportPortal.Business.DataSets;
     using ReportPortal.Business.Pages;
     using ReportPortal.Business.Pages.Modal;
@@ -182,8 +183,11 @@ namespace ReportPortal.Tests.ComponentTests
             WebDriverExtensions.ResizeElementUsingJavaScript(this.driver!, expectedWidth, expectedHeight, this.filtersPage.GetDropdownComponent());
 
             // Assert
-            this.filtersPage.GetDropdownComponent().Size.Height.Should().Be(expectedHeight);
-            this.filtersPage.GetDropdownComponent().Size.Width.Should().Be(expectedWidth);
+            using (new AssertionScope())
+            {
+                this.filtersPage.GetDropdownComponent().Size.Height.Should().Be(expectedHeight);
+                this.filtersPage.GetDropdownComponent().Size.Width.Should().Be(expectedWidth);
+            }
         }
 
         [Test]

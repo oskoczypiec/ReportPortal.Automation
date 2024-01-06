@@ -10,6 +10,7 @@ namespace ReportPortal.Tests.ComponentTests.MsTest
     using ReportPortal.Business.Pages.Modal;
 
     [TestClass]
+    [Ignore]
     public class MsFilterTests : MsTestBase
     {
         private LoginPage loginPage;

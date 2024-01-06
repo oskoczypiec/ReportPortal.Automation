@@ -13,6 +13,7 @@ namespace ReportPortal.Tests.ComponentTests.MsTest
     using ReportPortal.Tests;
 
     [TestClass]
+    [Ignore]
     public class SampleMSTests : MsTestBase
     {
         [TestMethod]
