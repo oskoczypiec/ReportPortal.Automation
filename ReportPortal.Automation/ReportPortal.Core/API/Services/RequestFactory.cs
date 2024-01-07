@@ -28,7 +28,7 @@ namespace ReportPortal.Core.API.Services
         public RestRequest GetRequest(string resource, Method method)
         {
             var responseGetUserToken = GetUserToken().Result;
-            Logger.Log.Info("User token: "+ responseGetUserToken);
+            Logger.Log.Info("User token: "+ responseGetUserToken.Content.ToString());
             var token = JsonConvert.DeserializeObject<GetAuthModel>(responseGetUserToken.Content).AccessToken;
 
             var request = new RestRequest(resource, method);
@@ -38,8 +38,6 @@ namespace ReportPortal.Core.API.Services
 
         public async Task<RestResponse> GetUserToken()
         {
-            Logger.Log.Info("User name: " + Settings.User);
-            Logger.Log.Info("User pass: " + Settings.Pass);
             var request = new RestRequest("/uat/sso/oauth/token", Method.Post)
                 .AddHeader("Authorization", "Basic dWk6dWltYW4=")
                 .AddParameter("username", "default")
