@@ -18,12 +18,27 @@ schedules:
 jobs:
 - job: 'ParallelTesting'
   pool:
-    vmImage: 'windows-latest'
+    vmImage: 'ubuntu-latest'
   strategy:
     parallel: 1
   displayName: Run ReportPortal tests
 
   steps:
+  - task: CmdLine@2
+    displayName: Install Google Chrome
+    inputs:
+      script: |
+        # Install Chrome dependencies
+              sudo apt-get update
+              sudo apt-get install -y libxss1 libappindicator1 libindicator7
+        
+              # Download and install Chrome
+              wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+              sudo dpkg -i google-chrome-stable_current_amd64.deb
+              sudo apt-get install -f
+        
+              # Verify Chrome installation
+              google-chrome --version
   - task: NuGetToolInstaller@1
     displayName: 'Use NuGet 6.8.0'
     inputs:
