@@ -18,7 +18,7 @@ schedules:
 jobs:
 - job: 'ParallelTesting'
   pool:
-    vmImage: 'ubuntu-latest'
+    vmImage: 'windows-latest'
   strategy:
     parallel: 1
   displayName: Run ReportPortal tests
