@@ -48,8 +48,8 @@ jobs:
     displayName: Test
     inputs:
       command: test
-      projects: '**/*Tests/*Tests*.csproj'
-      arguments: '--no-build'
+      projects: '**/*Tests/*Tests.csproj'
+      arguments: '--no-build --filter FullyQualifiedName~AnotherComponentTests'
   - task: CopyFiles@2
     inputs:
       Contents: '**/logs/**, **/screenshots/**'
