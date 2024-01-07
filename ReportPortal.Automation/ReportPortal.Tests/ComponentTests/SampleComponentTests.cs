@@ -5,7 +5,7 @@
 namespace ReportPortal.Tests.ComponentTests
 {
     using FluentAssertions;
-    using ReportPortal.Core.Tests;
+    using ReportPortal.Tests;
 
     [TestFixture]
     [Parallelizable(ParallelScope.Fixtures)]
@@ -17,12 +17,6 @@ namespace ReportPortal.Tests.ComponentTests
             var expectedUrl = "https://www.google.com/";
             this.driver!.Navigate().GoToUrl(expectedUrl);
             this.driver.Url.Should().Be(expectedUrl);
-        }
-
-        [Test]
-        public void TestToFail()
-        {
-            Assert.Fail();
         }
     }
 }

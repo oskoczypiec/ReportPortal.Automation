@@ -6,23 +6,40 @@ namespace ReportPortal.Core.Config
 {
     using Microsoft.Extensions.Configuration;
     using ReportPortal.Core.Enums;
+    using ReportPortal.Core.Interfaces;
+    using ReportPortal.Core.Utilities;
 
     /// <summary>
     /// Configuration manager for retrieving and managing application settings.
     /// </summary>
     public static class ApplicationConfiguration
     {
-        private static IConfiguration? config;
+        public static IConfigurationRoot? configuration;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ApplicationConfiguration"/> class, loading application settings from 'appsettings.json'.
         /// </summary>
-        public static void SetUp()
+        public static IConfigurationRoot SetUp()
         {
-            config = new ConfigurationBuilder()
-                .AddJsonFile("appsettings.json")
-                .Build();
+            configuration = new ConfigurationBuilder()
+                 .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
+                 .AddJsonFile("appsettings.json")
+                 .AddEnvironmentVariables()
+                 .Build();
+            AssignValues();
+
+            return configuration;
         }
+        /*
+        public static T GetConfiguration<T>()
+        {
+            var config = ObjectFactory.Get<T>();
+            var setUp = SetUp();
+            setUp.GetSection(nameof(T).Name).Bind(config);
+            return ObjectFactory.Get<T>();
+        }
+        */
+
 
         /// <summary>
         /// Retrieves the configured web browser from application settings.
@@ -31,7 +48,7 @@ namespace ReportPortal.Core.Config
         /// <exception cref="ArgumentException">Thrown when the 'Browser' setting is missing or unsupported.</exception>
         public static BrowserEnums GetBrowser()
         {
-            var browser = config?["Browser"];
+            var browser = configuration?["Browser"];
 
             if (browser == null)
             {
@@ -43,9 +60,9 @@ namespace ReportPortal.Core.Config
             }
         }
 
-        public static string GetUrl()
+        public static string GetBaseUrl()
         {
-            var url = config?["URL"];
+            var url = configuration?["URL"];
 
             if (url == null)
             {
@@ -55,6 +72,15 @@ namespace ReportPortal.Core.Config
             {
                 return url;
             }
+        }
+
+        public static void AssignValues()
+        {
+            Settings.URL = configuration?["URL"];
+            Settings.User = configuration?["User"];
+            Settings.Pass = configuration?["Pass"];
+            Settings.Browser = configuration?["Browser"];
+            Settings.BearerKey = configuration?["BearerKey"];
         }
     }
 }

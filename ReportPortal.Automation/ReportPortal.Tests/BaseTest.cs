@@ -2,9 +2,12 @@
 // Copyright (c) EPAM. All rights reserved.
 // </copyright>
 
-namespace ReportPortal.Core.Tests
+namespace ReportPortal.Tests
 {
+    using Newtonsoft.Json;
     using OpenQA.Selenium;
+    using ReportPortal.Core.API;
+    using ReportPortal.Core.API.Models;
     using ReportPortal.Core.Config;
     using ReportPortal.Core.Logger;
     using ReportPortal.Core.Reporter;
@@ -22,6 +25,9 @@ namespace ReportPortal.Core.Tests
         protected IWebDriver? driver;
 
         private static string screenshotFolder = "screenshots";
+        private FiltersEndpoints endpoints;
+        private DemoDataGeneratedModel dataGenerated;
+
 
         /// <summary>
         /// One-time setup method for test run initialization.
@@ -51,28 +57,60 @@ namespace ReportPortal.Core.Tests
         /// Initializes the WebDriver and navigates to the test URL.
         /// </summary>
         [SetUp]
-        public void Initialize()
+        public async Task Initialize()
         {
+            await ApiSetUp();
+
             this.driver = WebDriverFactory.CreateDriver();
-            this.driver.Navigate().GoToUrl("http://localhost:8080/ui/#login");
+            this.driver.Navigate().GoToUrl($"{Settings.URL}/ui/#login");
             Logger.Log.Info($"Running test: {TestContext.CurrentContext.Test.Name}");
+        }
+
+        private async Task ApiSetUp()
+        {
+            ApplicationConfiguration.SetUp();
+            endpoints = new FiltersEndpoints();
+            var response = await endpoints.GenerateDemoData();
+            dataGenerated = JsonConvert.DeserializeObject<DemoDataGeneratedModel>(response.Content);
         }
 
         /// <summary>
         /// Cleans up and reports test results, including attaching screenshots if a test fails.
         /// </summary>
         [TearDown]
-        public void BaseTearDown()
+        public async Task BaseTearDown()
         {
+            await ApiClean();
+
             var testName = TestContext.CurrentContext.Test.Name;
             var result = TestContext.CurrentContext.Result.Outcome.Status;
+            var enumParse = (Core.Enums.TestStatus)Enum.Parse(typeof(Core.Enums.TestStatus), result.ToString());
 
             Logger.Log.Info($"Test {testName} is {result}");
-            Reporter.AttachScreenshotIfFailed(this.driver!, result, testName);
+            Reporter.AttachScreenshotIfFailed(this.driver!, enumParse, testName);
 
             this.driver?.Quit();
             this.driver?.Dispose();
             this.driver = null;
+        }
+
+        private async Task ApiClean()
+        {
+            LaunchRequestModel launchRequest = new LaunchRequestModel()
+            {
+                LaunchIds = dataGenerated.LaunchIds,
+            };
+            var responseFilters = await endpoints.GetFilter();
+            var actualFilters = JsonConvert.DeserializeObject<FiltersRootModel>(responseFilters.Content!);
+            var filtersIds = actualFilters.Content.Select(x => x.Id).ToList();
+
+            foreach (var filterId in filtersIds)
+            {
+                await endpoints.DeleteFiltersById(filterId);
+
+            }
+            await endpoints.DeleteDashboardById(id: dataGenerated.DashboardId.ToString());
+            await endpoints.DeleteLaunchByIds(launchRequest);
         }
     }
 }

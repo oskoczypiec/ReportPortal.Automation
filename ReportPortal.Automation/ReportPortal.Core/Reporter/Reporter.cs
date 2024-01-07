@@ -5,8 +5,8 @@
 namespace ReportPortal.Core.Reporter
 {
     using NUnit.Framework;
-    using NUnit.Framework.Interfaces;
     using OpenQA.Selenium;
+    using ReportPortal.Core.Enums;
     using ReportPortal.Core.Utilities;
 
     /// <summary>
@@ -22,10 +22,12 @@ namespace ReportPortal.Core.Reporter
         /// <param name="testName">The name of the test being executed.</param>
         public static void AttachScreenshotIfFailed(IWebDriver driver, TestStatus result, string testName)
         {
+            var plainTestName = testName.Replace("\"", string.Empty);
+
             if (result != TestStatus.Passed)
             {
-                var screenshotFile = ScreenshotUtil.TakeScreenshot(driver, testName);
-                TestContext.AddTestAttachment(screenshotFile, $"Screenshot_{testName}");
+                var screenshotFile = ScreenshotUtil.TakeScreenshot(driver, plainTestName);
+                TestContext.AddTestAttachment(screenshotFile, $"Screenshot_{plainTestName}");
             }
         }
     }
