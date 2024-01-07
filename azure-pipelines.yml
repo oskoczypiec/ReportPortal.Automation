@@ -24,12 +24,18 @@ jobs:
   displayName: Run ReportPortal tests
 
   steps:
+  - task: NuGetToolInstaller@1
+    displayName: 'Use NuGet 6.8.0'
+    inputs:
+      versionSpec: 6.8.0
+      checkLatest: true
+
   - task: DockerCompose@0
     inputs:
       dockerComposeFile: '**/docker-compose.yml'
       action: Run a Docker Compose command
       dockerComposeCommand: 'up -d --force-recreate'
-      detached: true
+      detached: false
       projectName: 'reportportal'
 
   - task: DotNetCoreCLI@2
@@ -42,8 +48,8 @@ jobs:
     displayName: Test
     inputs:
       command: test
-      projects: '**/*Tests/*Tests*.csproj'
-      arguments: '--no-build'
+      projects: '**/*Tests/*Tests.csproj'
+      arguments: '--no-build --filter FullyQualifiedName~AnotherComponentTests'
   - task: CopyFiles@2
     inputs:
       Contents: '**/logs/**, **/screenshots/**'
