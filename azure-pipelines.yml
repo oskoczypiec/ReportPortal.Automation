@@ -35,7 +35,7 @@ jobs:
       dockerComposeFile: '**/docker-compose.yml'
       action: Run a Docker Compose command
       dockerComposeCommand: 'up -d --force-recreate'
-      detached: true
+      detached: false
       projectName: 'reportportal'
 
   - task: DotNetCoreCLI@2
