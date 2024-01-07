@@ -10,6 +10,7 @@ namespace ReportPortal.Core.API
     using ReportPortal.Core.Config;
     using ReportPortal.Core.Data;
     using RestSharp;
+    using ReportPortal.Core.Logger;
 
     public class FiltersEndpoints : BaseService
     {
@@ -52,6 +53,8 @@ namespace ReportPortal.Core.API
             var request = new RequestFactory().GetRequest(GenericEndpoints.GenerateDemoData(project), Method.Post);
             var jsonBody = "{}";
             request.AddJsonBody(jsonBody);
+            Logger.Log.Info(request.ToString());
+
 
             var response = await this.ExecuteAsync(request);
             return response;
