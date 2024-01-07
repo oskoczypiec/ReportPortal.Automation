@@ -71,6 +71,7 @@ namespace ReportPortal.Tests
             ApplicationConfiguration.SetUp();
             endpoints = new FiltersEndpoints();
             var response = await endpoints.GenerateDemoData();
+            Logger.Log.Info(response.Content);
             dataGenerated = JsonConvert.DeserializeObject<DemoDataGeneratedModel>(response.Content);
         }
 
