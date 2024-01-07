@@ -42,7 +42,7 @@ namespace ReportPortal.Core.API.Services
             Logger.Log.Info("User pass: " + Settings.Pass);
             var request = new RestRequest("/uat/sso/oauth/token", Method.Post)
                 .AddHeader("Authorization", "Basic dWk6dWltYW4=")
-                .AddParameter("username", Settings.User)
+                .AddParameter("username", "default")
                 .AddParameter("password", Settings.Pass)
                 .AddParameter("grant_type", "password");
 
