@@ -97,7 +97,7 @@ namespace ReportPortal.Tests
             this.driver = null;
         }
 
-        private async Task ApiClean()
+        public async Task ApiClean()
         {
             LaunchRequestModel launchRequest = new LaunchRequestModel()
             {
@@ -110,8 +110,8 @@ namespace ReportPortal.Tests
             foreach (var filterId in filtersIds)
             {
                 await endpoints.DeleteFiltersById(filterId);
-
             }
+
             await endpoints.DeleteDashboardById(id: dataGenerated.DashboardId.ToString());
             await endpoints.DeleteLaunchByIds(launchRequest);
         }

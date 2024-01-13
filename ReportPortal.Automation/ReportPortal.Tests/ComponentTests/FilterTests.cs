@@ -33,8 +33,9 @@ namespace ReportPortal.Tests.ComponentTests
         }
 
         [TearDown]
-        public void TearDown()
+        public async Task TearDown()
         {
+            await this.ApiClean();
         }
 
         [Test]
