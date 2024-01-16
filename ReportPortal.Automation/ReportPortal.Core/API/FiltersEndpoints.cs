@@ -9,8 +9,8 @@ namespace ReportPortal.Core.API
     using ReportPortal.Core.API.Services;
     using ReportPortal.Core.Config;
     using ReportPortal.Core.Data;
-    using RestSharp;
     using ReportPortal.Core.Logger;
+    using RestSharp;
 
     public class FiltersEndpoints : BaseService
     {
@@ -29,13 +29,20 @@ namespace ReportPortal.Core.API
             return response;
         }
 
+        public async Task<RestResponse> GetLaunches(string project = "default_personal")
+        {
+            var request = new RequestFactory().GetRequest(LaunchEndpoint.GetLaunchesByProjectName(project), Method.Get);
+
+            var response = await this.ExecuteAsync(request);
+            return response;
+        }
 
         public async Task<RestResponse> DeleteLaunchByIds(LaunchRequestModel requestModel, string project = "default_personal")
         {
-            var request = new RequestFactory().GetRequest(LaunchEndpoint.GetAllLaunchesByProjectName(project), Method.Delete);
+            var request = new RequestFactory().GetRequest(LaunchEndpoint.GetLaunchesByProjectName(project), Method.Delete);
             var jsonBody = JsonConvert.SerializeObject(requestModel);
             request.AddJsonBody(jsonBody);
-
+            await Task.Delay(2000);
             var response = await this.ExecuteAsync(request);
             return response;
         }
@@ -55,8 +62,8 @@ namespace ReportPortal.Core.API
             request.AddJsonBody(jsonBody);
             Logger.Log.Info(request.ToString());
 
-
             var response = await this.ExecuteAsync(request);
+            await Task.Delay(5000);
             return response;
         }
 

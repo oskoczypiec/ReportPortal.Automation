@@ -1,3 +1,4 @@
+using FluentAssertions;
 using ReportPortal.Business.Pages;
 using ReportPortal.Business.Pages.Modal;
 
@@ -9,6 +10,7 @@ namespace ReportPortal.BDD.Tests.StepDefinitions
         private IWebDriver _driver;
         private FiltersPage filtersPage => new FiltersPage(_driver);
         private AddFilterModal addFilterModal => new AddFilterModal(_driver);
+
         public FiltersStepDefinitions(IWebDriver driver)
         {
             this._driver = driver;
@@ -18,6 +20,13 @@ namespace ReportPortal.BDD.Tests.StepDefinitions
         public void GivenUserClicksAddFilterButton()
         {
             filtersPage.ClickAddFilterButton();
+        }
+
+        [Given(@"user clicks add filter button in modal")]
+        [When(@"user clicks add filter button in modal")]
+        public void WhenUserClicksAddFilterButton()
+        {
+            addFilterModal.ClickAddFilterButton();
         }
 
         [Given(@"user clicks more button")]
@@ -44,7 +53,8 @@ namespace ReportPortal.BDD.Tests.StepDefinitions
         [Then(@"the row count should be (.*)")]
         public void ThenTheRowCountShouldBe(int expectedRows)
         {
-            filtersPage.WaitUntilExpectedRowsCount(expectedRows);
+            var actualCount = filtersPage.WaitUntilExpectedRowsCount(expectedRows);
+            actualCount.Should().Be(expectedRows);
         }
 
         [Given(@"user clicks save filter button")]
@@ -66,12 +76,6 @@ namespace ReportPortal.BDD.Tests.StepDefinitions
         public void WhenFilterNameIsSetToPassed(string filterName)
         {
             addFilterModal.SetFilterName(filterName);
-        }
-
-        [When(@"user clicks add filter button")]
-        public void WhenUserClicksAddFilterButton()
-        {
-            addFilterModal.ClickAddFilterButton();
         }
 
         [Given(@"new filter (.*) is saved")]

@@ -70,11 +70,32 @@ namespace ReportPortal.Core.Config
             return driver.FindElements(by);
         }
 
-        public static void WaitUntilElementCountIs(this IWebDriver driver, By by, int expectedCount, int timeoutInSeconds = 10)
+        public static int WaitUntilElementCountIs(this IWebDriver driver, By by, int expectedCount, int timeoutInSeconds = 10)
         {
-            var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(timeoutInSeconds));
+            ReadOnlyCollection<IWebElement> actualElements;
+            try
+            {
+                if (timeoutInSeconds > 0)
+                {
+                    var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(timeoutInSeconds));
+                    wait.IgnoreExceptionTypes(typeof(OpenQA.Selenium.WebDriverTimeoutException));
 
-            wait.Until(d => d.GetElements(by).Count == expectedCount);
+                    var elements = wait.Until(driver =>
+                    {
+                        var actualElements = driver.GetElements(by);
+                        return actualElements.Count == expectedCount ? actualElements : null;
+                    });
+                }
+
+                actualElements = driver.GetElements(by);
+                return actualElements.Count;
+            }
+            catch (WebDriverTimeoutException)
+            {
+                actualElements = driver.GetElements(by);
+                Console.WriteLine($"Timeout! Actual element count: {actualElements.Count}");
+                return actualElements.Count;
+            }
         }
 
         public static void WaitUntilElementIsVisible(this IWebDriver driver, By by, int timeoutInSeconds = 10)

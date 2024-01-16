@@ -1,7 +1,11 @@
-﻿namespace ReportPortal.Core.Data
+﻿// <copyright file="LaunchEndpoint.cs" company="EPAM">
+// Copyright (c) EPAM. All rights reserved.
+// </copyright>
+
+namespace ReportPortal.Core.Data
 {
     public static class LaunchEndpoint
     {
-        public static string GetAllLaunchesByProjectName(string projectName = "default_personal") => $"/api/v1/{projectName}/launch";
+        public static string GetLaunchesByProjectName(string projectName = "default_personal") => $"/api/v1/{projectName}/launch";
     }
 }

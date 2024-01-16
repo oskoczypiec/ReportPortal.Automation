@@ -13,7 +13,7 @@ Scenario Outline: User is able to delete a filter
 	And user clicks save filter button
 	And add filter modal is displayed
 	And filter name is set to <name>
-	And user clicks add filter button
+	And user clicks add filter button in modal
 	And new filter <name> is saved
 	When user clics remove active filter button
 	Then no active filter is displayed
@@ -21,7 +21,7 @@ Scenario Outline: User is able to delete a filter
 	Examples:
 	| name           | value | result |
 	| Passed         | 30    | 1      |
-	| Launch number  | 3     | 3      |
+	| System issue   | 3     | 2      |
 	| Description    | Demo  | 5      |
 	| Failed         | 1     | 4      |
 	| To investigate | 1     | 4      |

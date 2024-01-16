@@ -28,7 +28,6 @@ namespace ReportPortal.Core.API.Services
         public RestRequest GetRequest(string resource, Method method)
         {
             var responseGetUserToken = GetUserToken().Result;
-            Logger.Log.Info("User token: "+ responseGetUserToken.Content.ToString());
             var token = JsonConvert.DeserializeObject<GetAuthModel>(responseGetUserToken.Content).AccessToken;
 
             var request = new RestRequest(resource, method);

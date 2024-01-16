@@ -2,4 +2,4 @@
 global using TechTalk.SpecFlow;
 using NUnit.Framework;
 
-[assembly: Parallelizable(ParallelScope.Fixtures)]
+// to uncomment when multiple project creation will be implemented [assembly: Parallelizable(ParallelScope.Fixtures)]

@@ -71,9 +71,6 @@ namespace ReportPortal.Tests
             ApplicationConfiguration.SetUp();
             endpoints = new FiltersEndpoints();
             var response = await endpoints.GenerateDemoData();
-            Logger.Log.Info("Response to string: "+ response.ToString());
-            Logger.Log.Info("Response content to string: "+ response.Content.ToString());
-            Logger.Log.Info("Response code: "+ response.StatusCode.ToString());
             dataGenerated = JsonConvert.DeserializeObject<DemoDataGeneratedModel>(response.Content);
         }
 
@@ -99,10 +96,6 @@ namespace ReportPortal.Tests
 
         public async Task ApiClean()
         {
-            LaunchRequestModel launchRequest = new LaunchRequestModel()
-            {
-                LaunchIds = dataGenerated.LaunchIds,
-            };
             var responseFilters = await endpoints.GetFilter();
             var actualFilters = JsonConvert.DeserializeObject<FiltersRootModel>(responseFilters.Content!);
             var filtersIds = actualFilters.Content.Select(x => x.Id).ToList();
@@ -112,8 +105,17 @@ namespace ReportPortal.Tests
                 await endpoints.DeleteFiltersById(filterId);
             }
 
-            await endpoints.DeleteDashboardById(id: dataGenerated.DashboardId.ToString());
+            var responseGetLaunches = await endpoints.GetLaunches();
+            var actualLaunches = JsonConvert.DeserializeObject<FiltersRootModel>(responseGetLaunches.Content!);
+            var allLaunchesIds = actualLaunches.Content.Select(x => x.Id).ToList<int>();
+
+            LaunchRequestModel launchRequest = new LaunchRequestModel()
+            {
+                LaunchIds = allLaunchesIds,
+            };
+
             await endpoints.DeleteLaunchByIds(launchRequest);
+            await endpoints.DeleteDashboardById(id: dataGenerated.DashboardId.ToString());
         }
     }
 }

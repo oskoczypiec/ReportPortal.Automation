@@ -91,7 +91,7 @@ namespace ReportPortal.BDD.Tests.Features
         [NUnit.Framework.CategoryAttribute("filters")]
         [NUnit.Framework.CategoryAttribute("add")]
         [NUnit.Framework.TestCaseAttribute("Passed", "30", "1", null)]
-        [NUnit.Framework.TestCaseAttribute("Launch number", "3", "3", null)]
+        [NUnit.Framework.TestCaseAttribute("System issue", "3", "2", null)]
         [NUnit.Framework.TestCaseAttribute("Description", "Demo", "5", null)]
         [NUnit.Framework.TestCaseAttribute("Failed", "1", "4", null)]
         [NUnit.Framework.TestCaseAttribute("To investigate", "1", "4", null)]

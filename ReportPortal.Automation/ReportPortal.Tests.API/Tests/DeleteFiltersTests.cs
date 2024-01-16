@@ -50,7 +50,7 @@ namespace ReportPortal.Tests.API.Tests
             var actualResponse = JsonConvert.DeserializeObject<ErrorModel>(response.Content!);
 
             // Assert
-            response.StatusCode.Should().Be(System.Net.HttpStatusCode.NoContent);
+            response.StatusCode.Should().Be(System.Net.HttpStatusCode.NotFound);
             actualResponse.Message.Should().Contain(ErrorMessages.FilterNotFoundError(randomId.ToString()));
         }
     }
