@@ -94,12 +94,8 @@ namespace ReportPortal.Tests
             this.driver = null;
         }
 
-        private async Task ApiClean()
+        public async Task ApiClean()
         {
-            LaunchRequestModel launchRequest = new LaunchRequestModel()
-            {
-                LaunchIds = dataGenerated.LaunchIds,
-            };
             var responseFilters = await endpoints.GetFilter();
             var actualFilters = JsonConvert.DeserializeObject<FiltersRootModel>(responseFilters.Content!);
             var filtersIds = actualFilters.Content.Select(x => x.Id).ToList();
@@ -107,10 +103,19 @@ namespace ReportPortal.Tests
             foreach (var filterId in filtersIds)
             {
                 await endpoints.DeleteFiltersById(filterId);
-
             }
-            await endpoints.DeleteDashboardById(id: dataGenerated.DashboardId.ToString());
+
+            var responseGetLaunches = await endpoints.GetLaunches();
+            var actualLaunches = JsonConvert.DeserializeObject<FiltersRootModel>(responseGetLaunches.Content!);
+            var allLaunchesIds = actualLaunches.Content.Select(x => x.Id).ToList<int>();
+
+            LaunchRequestModel launchRequest = new LaunchRequestModel()
+            {
+                LaunchIds = allLaunchesIds,
+            };
+
             await endpoints.DeleteLaunchByIds(launchRequest);
+            await endpoints.DeleteDashboardById(id: dataGenerated.DashboardId.ToString());
         }
     }
 }

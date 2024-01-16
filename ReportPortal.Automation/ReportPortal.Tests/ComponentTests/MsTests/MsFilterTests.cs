@@ -4,13 +4,14 @@
 
 namespace ReportPortal.Tests.ComponentTests.MsTest
 {
+    using FluentAssertions;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using ReportPortal.Business.DataSets;
     using ReportPortal.Business.Pages;
     using ReportPortal.Business.Pages.Modal;
 
     [TestClass]
-    [Ignore]
+    [Ignore("MSTests ignored")]
     public class MsFilterTests : MsTestBase
     {
         private LoginPage loginPage;
@@ -53,7 +54,7 @@ namespace ReportPortal.Tests.ComponentTests.MsTest
 
             // Assert
             this.filtersPage
-                .WaitUntilExpectedRowsCount(expectedRowsCount);
+                .WaitUntilExpectedRowsCount(expectedRowsCount).Should().Be(expectedRowsCount);
         }
 
         [DataTestMethod]

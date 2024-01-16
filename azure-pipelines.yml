@@ -24,12 +24,33 @@ jobs:
   displayName: Run ReportPortal tests
 
   steps:
+  - task: CmdLine@2
+    displayName: Install Google Chrome
+    inputs:
+      script: |
+        # Install Chrome dependencies
+              sudo apt-get update
+              sudo apt-get install -y libxss1 libappindicator1 libindicator7
+        
+              # Download and install Chrome
+              wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+              sudo dpkg -i google-chrome-stable_current_amd64.deb
+              sudo apt-get install -f
+        
+              # Verify Chrome installation
+              google-chrome --version
+  - task: NuGetToolInstaller@1
+    displayName: 'Use NuGet 6.8.0'
+    inputs:
+      versionSpec: 6.8.0
+      checkLatest: true
+
   - task: DockerCompose@0
     inputs:
       dockerComposeFile: '**/docker-compose.yml'
       action: Run a Docker Compose command
       dockerComposeCommand: 'up -d --force-recreate'
-      detached: true
+      detached: false
       projectName: 'reportportal'
 
   - task: DotNetCoreCLI@2
@@ -42,7 +63,7 @@ jobs:
     displayName: Test
     inputs:
       command: test
-      projects: '**/ReportPortal.Tests.csproj'
+      projects: '**/*Tests/*Tests.csproj'
       arguments: '--no-build'
   - task: CopyFiles@2
     inputs:

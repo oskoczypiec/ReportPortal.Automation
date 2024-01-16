@@ -91,7 +91,7 @@ namespace ReportPortal.BDD.Tests.Features
         [NUnit.Framework.CategoryAttribute("filters")]
         [NUnit.Framework.CategoryAttribute("save")]
         [NUnit.Framework.TestCaseAttribute("Passed", "30", "1", null)]
-        [NUnit.Framework.TestCaseAttribute("Launch number", "3", "3", null)]
+        [NUnit.Framework.TestCaseAttribute("System issue", "3", "2", null)]
         [NUnit.Framework.TestCaseAttribute("Description", "Demo", "5", null)]
         [NUnit.Framework.TestCaseAttribute("Failed", "1", "4", null)]
         [NUnit.Framework.TestCaseAttribute("To investigate", "1", "4", null)]
@@ -140,7 +140,7 @@ this.FeatureBackground();
  testRunner.And(string.Format("the row count should be {0}", result), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 14
- testRunner.When("user clicks save filter button", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("user clicks save filter button in modal", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
 #line 15
  testRunner.And("add filter modal is displayed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");

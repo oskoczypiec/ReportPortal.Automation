@@ -24,22 +24,11 @@ namespace ReportPortal.Core.Config
             configuration = new ConfigurationBuilder()
                  .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
                  .AddJsonFile("appsettings.json")
-                 .AddEnvironmentVariables()
                  .Build();
             AssignValues();
 
             return configuration;
         }
-        /*
-        public static T GetConfiguration<T>()
-        {
-            var config = ObjectFactory.Get<T>();
-            var setUp = SetUp();
-            setUp.GetSection(nameof(T).Name).Bind(config);
-            return ObjectFactory.Get<T>();
-        }
-        */
-
 
         /// <summary>
         /// Retrieves the configured web browser from application settings.

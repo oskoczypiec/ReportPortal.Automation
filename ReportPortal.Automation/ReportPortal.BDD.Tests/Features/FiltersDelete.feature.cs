@@ -91,7 +91,7 @@ namespace ReportPortal.BDD.Tests.Features
         [NUnit.Framework.CategoryAttribute("filters")]
         [NUnit.Framework.CategoryAttribute("delete")]
         [NUnit.Framework.TestCaseAttribute("Passed", "30", "1", null)]
-        [NUnit.Framework.TestCaseAttribute("Launch number", "3", "3", null)]
+        [NUnit.Framework.TestCaseAttribute("System issue", "3", "2", null)]
         [NUnit.Framework.TestCaseAttribute("Description", "Demo", "5", null)]
         [NUnit.Framework.TestCaseAttribute("Failed", "1", "4", null)]
         [NUnit.Framework.TestCaseAttribute("To investigate", "1", "4", null)]
@@ -149,7 +149,7 @@ this.FeatureBackground();
  testRunner.And(string.Format("filter name is set to {0}", name), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 16
- testRunner.And("user clicks add filter button", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("user clicks add filter button in modal", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 17
  testRunner.And(string.Format("new filter {0} is saved", name), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");

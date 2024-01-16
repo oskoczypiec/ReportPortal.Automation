@@ -74,9 +74,9 @@ namespace ReportPortal.Business.Pages
             return this;
         }
 
-        public void WaitUntilExpectedRowsCount(int expectedCount)
+        public int WaitUntilExpectedRowsCount(int expectedCount)
         {
-            this.driver.WaitUntilElementCountIs(this.GridRowsLocator, expectedCount);
+            return this.driver.WaitUntilElementCountIs(this.GridRowsLocator, expectedCount);
         }
 
         public FiltersPage ClickSaveButton()

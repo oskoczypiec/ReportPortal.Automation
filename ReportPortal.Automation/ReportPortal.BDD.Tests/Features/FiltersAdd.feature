@@ -15,7 +15,7 @@ Scenario Outline: User is able to add a filter
 	Examples:
 	| name           | value | result |
 	| Passed         | 30    | 1      |
-	| Launch number  | 3     | 3      |
+	| System issue   | 3     | 2      |
 	| Description    | Demo  | 5      |
 	| Failed         | 1     | 4      |
 	| To investigate | 1     | 4      |

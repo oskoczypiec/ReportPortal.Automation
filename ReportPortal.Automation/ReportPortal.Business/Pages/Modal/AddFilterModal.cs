@@ -30,6 +30,7 @@ namespace ReportPortal.Business.Pages.Modal
 
         public AddFilterModal SetFilterName(string name)
         {
+            this.FilterNameInput.Click();
             this.FilterNameInput.Clear();
             wait.Until(x => this.FilterNameInput.Text == string.Empty);
             this.FilterNameInput.SendKeys(name);

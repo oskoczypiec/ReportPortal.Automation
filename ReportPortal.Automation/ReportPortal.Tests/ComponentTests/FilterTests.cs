@@ -33,8 +33,9 @@ namespace ReportPortal.Tests.ComponentTests
         }
 
         [TearDown]
-        public void TearDown()
+        public async Task TearDown()
         {
+            await this.ApiClean();
         }
 
         [Test]
@@ -53,7 +54,7 @@ namespace ReportPortal.Tests.ComponentTests
 
             // Assert
             this.filtersPage
-                .WaitUntilExpectedRowsCount(expectedRowsCount);
+                .WaitUntilExpectedRowsCount(expectedRowsCount).Should().Be(expectedRowsCount);
         }
 
         [Test]
@@ -111,7 +112,7 @@ namespace ReportPortal.Tests.ComponentTests
 
         [Test]
         [TestCaseSource(typeof(FilterDataSet), nameof(FilterDataSet.DifferentFilters))]
-        public void UserIsAbleToEditAFilter(string filterName, string value)
+        public void UserIsAbleToEditAFilter(string filterName, string value, int expectedRowsCount)
         {
             // Arrange
             var randomName = RandomHelper.AlphabeticalString(5);

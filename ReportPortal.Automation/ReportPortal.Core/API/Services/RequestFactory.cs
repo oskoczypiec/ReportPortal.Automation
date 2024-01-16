@@ -8,6 +8,7 @@ namespace ReportPortal.Core.API.Services
     using ReportPortal.Core.API.Models;
     using ReportPortal.Core.Config;
     using RestSharp;
+    using ReportPortal.Core.Logger;
 
     public class RequestFactory
     {
@@ -38,7 +39,7 @@ namespace ReportPortal.Core.API.Services
         {
             var request = new RestRequest("/uat/sso/oauth/token", Method.Post)
                 .AddHeader("Authorization", "Basic dWk6dWltYW4=")
-                .AddParameter("username", Settings.User)
+                .AddParameter("username", "default")
                 .AddParameter("password", Settings.Pass)
                 .AddParameter("grant_type", "password");
 
