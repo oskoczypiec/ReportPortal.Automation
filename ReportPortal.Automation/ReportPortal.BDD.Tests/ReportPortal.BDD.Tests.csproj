@@ -7,6 +7,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Drivers\**" />
+    <EmbeddedResource Remove="Drivers\**" />
+    <None Remove="Drivers\**" />
+    <SpecFlowFeatureFiles Remove="Drivers\**" />
+    <SpecFlowObsoleteCodeBehindFiles Remove="Drivers\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <SpecFlowObsoleteCodeBehindFiles Remove="Features\Filters - Copy.feature.cs" />
     <SpecFlowObsoleteCodeBehindFiles Remove="Features\FiltersSave - Copy.feature.cs" />
   </ItemGroup>
@@ -21,10 +29,6 @@
     <PackageReference Include="NUnit3TestAdapter" Version="4.5.0" />
     <PackageReference Include="FluentAssertions" Version="6.12.0" />
     <PackageReference Include="WebDriverManager" Version="2.17.1" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Drivers\" />
   </ItemGroup>
 
   <ItemGroup>
