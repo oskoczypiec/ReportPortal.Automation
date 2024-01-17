@@ -63,7 +63,7 @@ jobs:
     displayName: Test
     inputs:
       command: test
-      projects: '**/*.csproj'
+      projects: 'ReportPortal.Automation/ReportPortal.BDD.Tests/ReportPortal.BDD.Tests.csproj'
       arguments: '--no-build --filter "FullyQualifiedName~ReportPortal.BDD.Tests.Features.FiltersAddFeature"'
   
   - task: CopyFiles@2
