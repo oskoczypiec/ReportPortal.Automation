@@ -70,7 +70,7 @@ jobs:
     displayName: 'Copy Screenshots'
     condition: failed()
     inputs:
-      SourceFolder: '$(Build.SourcesDirectory)/ReportPortal.BDD.Tests/bin/Release/net6.0/screenshots'
+      SourceFolder: '$(Build.SourcesDirectory)/ReportPortal.Automation/ReportPortal.BDD.Tests/bin/Release/net6.0/screenshots'
       Contents: '**/*'
       TargetFolder: '$(Build.ArtifactStagingDirectory)/Screenshots'
 
