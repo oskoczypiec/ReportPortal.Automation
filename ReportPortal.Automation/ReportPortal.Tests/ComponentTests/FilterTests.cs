@@ -181,6 +181,8 @@ namespace ReportPortal.Tests.ComponentTests
                 .ClickDropdownButton();
 
             // Act
+            // better to create new WebElementExtensions
+            // this.filtersPage.GetDropdownComponent().Resize(width, height)
             WebDriverExtensions.ResizeElementUsingJavaScript(this.driver!, expectedWidth, expectedHeight, this.filtersPage.GetDropdownComponent());
 
             // Assert

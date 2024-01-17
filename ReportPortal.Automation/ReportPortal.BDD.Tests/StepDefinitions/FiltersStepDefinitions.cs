@@ -17,6 +17,7 @@ namespace ReportPortal.BDD.Tests.StepDefinitions
         }
 
         [Given(@"user clicks add filter button")]
+        [When(@"user clicks add filter button")]
         public void GivenUserClicksAddFilterButton()
         {
             filtersPage.ClickAddFilterButton();
@@ -24,6 +25,7 @@ namespace ReportPortal.BDD.Tests.StepDefinitions
 
         [Given(@"user clicks add filter button in modal")]
         [When(@"user clicks add filter button in modal")]
+        [When(@"user clicks save filter button in modal")]
         public void WhenUserClicksAddFilterButton()
         {
             addFilterModal.ClickAddFilterButton();
