@@ -97,3 +97,4 @@ jobs:
 
           echo "Build.SourcesDirectory:"
           echo "$(Build.SourcesDirectory)"
+          tree $(Build.SourcesDirectory)/1
