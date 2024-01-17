@@ -84,21 +84,16 @@ jobs:
 
   - task: CmdLine@2
     condition: always()
-    displayName: Structure of folders
     inputs:
       script: |
-        echo "Structure of work folder of this pipeline:"
-        tree $(Agent.WorkFolder)\1 /f
-        
-        echo "Build.ArtifactStagingDirectory:" 
-        
-        echo "$(Build.ArtifactStagingDirectory)"
-        
-        echo "Build.BinariesDirectory:" 
-        
-        echo "$(Build.BinariesDirectory)"
-        
-        echo "Build.SourcesDirectory:"
-        
-        echo "$(Build.SourcesDirectory) sources directory " 
-        tree $(Build.SourcesDirectory)\1 /f
+          echo "Structure of work folder of this pipeline:"
+          tree $(Agent.WorkFolder)/1
+
+          echo "Build.ArtifactStagingDirectory:" 
+          echo "$(Build.ArtifactStagingDirectory)"
+
+          echo "Build.BinariesDirectory:" 
+          echo "$(Build.BinariesDirectory)"
+
+          echo "Build.SourcesDirectory:"
+          echo "$(Build.SourcesDirectory)"
