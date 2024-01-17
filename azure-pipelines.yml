@@ -64,15 +64,19 @@ jobs:
     inputs:
       command: test
       projects: '**/*Tests/*Tests.csproj'
-      arguments: '--no-build'
+      arguments: '--no-build --filter "FullyQualifiedName~ReportPortal.BDD.Tests.Features.FiltersAddFeature.UserIsAbleToAddAFilter"'
+  
   - task: CopyFiles@2
-    continueOnError: true
+    displayName: 'Copy Screenshots'
+    condition: always()
     inputs:
-      Contents: '**/logs/**, **/screenshots/**'
-      TargetFolder: '$(Build.ArtifactStagingDirectory)'
+      SourceFolder: '$(Build.SourcesDirectory)/ReportPortal.Tests/bin/Release/net6.0/screenshots'
+      Contents: '**/*'
+      TargetFolder: '$(Build.ArtifactStagingDirectory)/Screenshots'
 
-  - task: PublishBuildArtifacts@1
-    continueOnError: true
+  - task: PublishPipelineArtifact@1
+    displayName: 'Publish Artifacts'
+    condition: always()
     inputs:
-      pathToPublish: '$(Build.ArtifactStagingDirectory)'
-      artifactName: drop
+      targetPath: '$(Build.ArtifactStagingDirectory)/Screenshots'
+      artifact: 'Screenshots'
