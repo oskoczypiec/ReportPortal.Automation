@@ -68,15 +68,15 @@ jobs:
   
   - task: CopyFiles@2
     displayName: 'Copy Screenshots'
-    condition: always()
+    condition: failed()
     inputs:
-      SourceFolder: '$(Build.SourcesDirectory)/ReportPortal.Tests/bin/Release/net6.0/screenshots'
+      SourceFolder: '$(Build.SourcesDirectory)/ReportPortal.BDD.Tests/bin/Release/net6.0/screenshots'
       Contents: '**/*'
       TargetFolder: '$(Build.ArtifactStagingDirectory)/Screenshots'
 
   - task: PublishPipelineArtifact@1
     displayName: 'Publish Artifacts'
-    condition: always()
+    condition: failed()
     inputs:
       targetPath: '$(Build.ArtifactStagingDirectory)/Screenshots'
       artifact: 'Screenshots'
