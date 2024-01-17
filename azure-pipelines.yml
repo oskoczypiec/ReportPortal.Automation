@@ -64,7 +64,7 @@ jobs:
     inputs:
       command: test
       projects: '**/*Tests/*Tests.csproj'
-      arguments: '--no-build --filter "FullyQualifiedName~ReportPortal.BDD.Tests.Features.FiltersAddFeature.UserIsAbleToAddAFilter"'
+      arguments: '--no-build --filter "FullyQualifiedName~ReportPortal.BDD.Tests.Features.FiltersAddFeature"'
   
   - task: CopyFiles@2
     displayName: 'Copy Screenshots'
@@ -80,3 +80,24 @@ jobs:
     inputs:
       targetPath: '$(Build.ArtifactStagingDirectory)/Screenshots'
       artifact: 'Screenshots'
+
+
+  - task: CmdLine@2
+    displayName: Structure of folders
+    inputs:
+      script: |
+        echo "Structure of work folder of this pipeline:"
+        tree $(Agent.WorkFolder)\1 /f
+        
+        echo "Build.ArtifactStagingDirectory:" 
+        
+        echo "$(Build.ArtifactStagingDirectory)"
+        
+        echo "Build.BinariesDirectory:" 
+        
+        echo "$(Build.BinariesDirectory)"
+        
+        echo "Build.SourcesDirectory:"
+        
+        echo "$(Build.SourcesDirectory) sources directory " 
+        tree $(Build.SourcesDirectory)\1 /f
