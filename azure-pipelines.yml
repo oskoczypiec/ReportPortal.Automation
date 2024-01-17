@@ -63,7 +63,7 @@ jobs:
     displayName: Test
     inputs:
       command: test
-      projects: '**/*Tests/*Tests.csproj'
+      projects: '**/*.csproj'
       arguments: '--no-build --filter "FullyQualifiedName~ReportPortal.BDD.Tests.Features.FiltersAddFeature"'
   
   - task: CopyFiles@2
@@ -83,6 +83,7 @@ jobs:
 
 
   - task: CmdLine@2
+    condition: always()
     displayName: Structure of folders
     inputs:
       script: |
