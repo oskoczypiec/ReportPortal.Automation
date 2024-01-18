@@ -17,15 +17,13 @@ schedules:
 
 jobs:
 - job: 'ParallelTesting'
+  displayName: Run ReportPortal tests
   pool:
     vmImage: 'ubuntu-latest'
-  strategy:
-    parallel: 1
-  displayName: Run ReportPortal tests
 
   steps:
   - task: CmdLine@2
-    displayName: Install Google Chrome
+    displayName: Install Google Chrome on machine
     inputs:
       script: |
         # Install Chrome dependencies
@@ -46,6 +44,7 @@ jobs:
       checkLatest: true
 
   - task: DockerCompose@0
+    displayName: "Run docker compose for ReportPortal"
     inputs:
       dockerComposeFile: '**/docker-compose.yml'
       action: Run a Docker Compose command
@@ -65,7 +64,12 @@ jobs:
       command: test
       projects: 'ReportPortal.Automation/ReportPortal.BDD.Tests/ReportPortal.BDD.Tests.csproj'
       arguments: '--no-build --filter "FullyQualifiedName~ReportPortal.BDD.Tests.Features.FiltersAddFeature"'
-  
+  - task: SonarQubePrepare@5
+    inputs:
+      SonarQube: 'SonarQube service connection'
+      scannerMode: 'MSBuild'
+      projectKey: '53b5db112db361d18806e7bc66d3a4835309d0da'
+    
   - task: CopyFiles@2
     displayName: 'Copy Screenshots'
     condition: failed()
@@ -80,21 +84,3 @@ jobs:
     inputs:
       targetPath: '$(Build.ArtifactStagingDirectory)/Screenshots'
       artifact: 'Screenshots'
-
-
-  - task: CmdLine@2
-    condition: always()
-    inputs:
-      script: |
-          echo "Structure of work folder of this pipeline:"
-          tree $(Agent.WorkFolder)/1
-
-          echo "Build.ArtifactStagingDirectory:" 
-          echo "$(Build.ArtifactStagingDirectory)"
-
-          echo "Build.BinariesDirectory:" 
-          echo "$(Build.BinariesDirectory)"
-
-          echo "Build.SourcesDirectory:"
-          echo "$(Build.SourcesDirectory)"
-          tree $(Build.SourcesDirectory)/1
