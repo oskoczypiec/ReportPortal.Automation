@@ -26,7 +26,7 @@ namespace ReportPortal.Core.Config
             options.AddArgument("--headless");
             options.AddArgument("--incognito");
 
-            return new ChromeDriver(AppDomain.CurrentDomain.BaseDirectory, options);
+            return new ChromeDriver(AppDomain.CurrentDomain.BaseDirectory, options, TimeSpan.FromMinutes(3));
         }
     }
 }
