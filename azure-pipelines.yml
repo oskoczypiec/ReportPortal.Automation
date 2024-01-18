@@ -15,12 +15,10 @@ schedules:
     include:
     - main
 
-jobs:
-- job: 'ParallelTesting'
-  pool:
-    vmImage: 'ubuntu-latest'
+pool:
+  vmImage: 'ubuntu-latest'
 
-  steps:
+steps:
   - task: CmdLine@2
     displayName: Install Google Chrome on machine
     inputs:
