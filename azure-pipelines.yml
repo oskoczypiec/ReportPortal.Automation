@@ -15,17 +15,12 @@ schedules:
     include:
     - main
 
-jobs:
-- job: 'ParallelTesting'
-  pool:
-    vmImage: 'ubuntu-latest'
-  strategy:
-    parallel: 1
-  displayName: Run ReportPortal tests
+pool:
+  vmImage: 'ubuntu-latest'
 
-  steps:
+steps:
   - task: CmdLine@2
-    displayName: Install Google Chrome
+    displayName: Install Google Chrome on machine
     inputs:
       script: |
         # Install Chrome dependencies
@@ -46,6 +41,7 @@ jobs:
       checkLatest: true
 
   - task: DockerCompose@0
+    displayName: "Run docker compose for ReportPortal"
     inputs:
       dockerComposeFile: '**/docker-compose.yml'
       action: Run a Docker Compose command
@@ -63,20 +59,26 @@ jobs:
     displayName: Test
     inputs:
       command: test
-      projects: '**/*Tests/*Tests.csproj'
-      arguments: '--no-build --filter "FullyQualifiedName~ReportPortal.BDD.Tests.Features.FiltersAddFeature.UserIsAbleToAddAFilter"'
-  
+      projects: 'ReportPortal.Automation/ReportPortal.BDD.Tests/ReportPortal.BDD.Tests.csproj'
+      arguments: '--no-build --filter "FullyQualifiedName~ReportPortal.BDD.Tests.Features.FiltersAddFeature"'
+  - task: SonarQubePrepare@5
+    displayName: Sonar qube run
+    inputs:
+      SonarQube: 'SonarQube service connection'
+      scannerMode: 'MSBuild'
+      projectKey: '53b5db112db361d18806e7bc66d3a4835309d0da'
+    
   - task: CopyFiles@2
     displayName: 'Copy Screenshots'
-    condition: always()
+    condition: failed()
     inputs:
-      SourceFolder: '$(Build.SourcesDirectory)/ReportPortal.Tests/bin/Release/net6.0/screenshots'
+      SourceFolder: '$(Build.SourcesDirectory)/ReportPortal.Automation/ReportPortal.BDD.Tests/bin/Debug/net6.0/screenshots'
       Contents: '**/*'
       TargetFolder: '$(Build.ArtifactStagingDirectory)/Screenshots'
 
   - task: PublishPipelineArtifact@1
     displayName: 'Publish Artifacts'
-    condition: always()
+    condition: failed()
     inputs:
       targetPath: '$(Build.ArtifactStagingDirectory)/Screenshots'
       artifact: 'Screenshots'
