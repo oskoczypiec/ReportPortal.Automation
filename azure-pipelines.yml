@@ -19,9 +19,6 @@ jobs:
 - job: 'ParallelTesting'
   pool:
     vmImage: 'ubuntu-latest'
-  strategy:
-    parallel: 1
-  displayName: Run ReportPortal tests
 
   steps:
   - task: CmdLine@2
