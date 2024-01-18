@@ -17,9 +17,11 @@ schedules:
 
 jobs:
 - job: 'ParallelTesting'
-  displayName: Run ReportPortal tests
   pool:
     vmImage: 'ubuntu-latest'
+  strategy:
+    parallel: 1
+  displayName: Run ReportPortal tests
 
   steps:
   - task: CmdLine@2
