@@ -27,9 +27,10 @@ namespace ReportPortal.Core.API.Services
 
         public RestRequest GetRequest(string resource, Method method)
         {
-            var responseGetUserToken = GetUserToken().Result;
-            var token = JsonConvert.DeserializeObject<GetAuthModel>(responseGetUserToken.Content).AccessToken;
+            var responseGetUserToken = this.GetUserToken().Result;
+            Logger.Log.Info($"responseGetUserToken: {responseGetUserToken.Content}");
 
+            var token = JsonConvert.DeserializeObject<GetAuthModel>(responseGetUserToken.Content!) !.AccessToken;
             var request = new RestRequest(resource, method);
             request.AddHeader("Authorization", $"Bearer {token}");
             return request;
@@ -37,6 +38,8 @@ namespace ReportPortal.Core.API.Services
 
         public async Task<RestResponse> GetUserToken()
         {
+            Logger.Log.Info($"password :{Settings.Pass}");
+
             var request = new RestRequest("/uat/sso/oauth/token", Method.Post)
                 .AddHeader("Authorization", "Basic dWk6dWltYW4=")
                 .AddParameter("username", "default")
@@ -44,6 +47,7 @@ namespace ReportPortal.Core.API.Services
                 .AddParameter("grant_type", "password");
 
             RestResponse response = Client.Execute(request);
+            Logger.Log.Info($"response: {response.Content}");
 
             return response;
         }
