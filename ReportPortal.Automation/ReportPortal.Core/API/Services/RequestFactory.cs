@@ -47,7 +47,8 @@ namespace ReportPortal.Core.API.Services
                 .AddParameter("grant_type", "password");
 
             RestResponse response = Client.Execute(request);
-            Logger.Log.Info($"response: {response.Content}");
+            Logger.Log.Info($"request: {request}");
+            Logger.Log.Info($"response: {response.ErrorMessage}");
 
             return response;
         }

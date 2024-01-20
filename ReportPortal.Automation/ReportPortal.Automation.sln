@@ -13,6 +13,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionIt
 	ProjectSection(SolutionItems) = preProject
 		..\SolutionItems\docker-compose.yml = ..\SolutionItems\docker-compose.yml
 		stylecop.json = stylecop.json
+		teamcity-build-config.kt = teamcity-build-config.kt
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReportPortal.Tests.API", "ReportPortal.Tests.API\ReportPortal.Tests.API.csproj", "{D0A2F8EB-7746-4FB0-A7CB-DFD24A2686D7}"
