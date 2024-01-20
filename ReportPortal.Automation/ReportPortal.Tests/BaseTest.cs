@@ -59,19 +59,11 @@ namespace ReportPortal.Tests
         [SetUp]
         public async Task Initialize()
         {
-            await ApiSetUp();
+            await this.ApiSetUp();
 
             this.driver = WebDriverFactory.CreateDriver();
             this.driver.Navigate().GoToUrl($"{Settings.URL}/ui/#login");
             Logger.Log.Info($"Running test: {TestContext.CurrentContext.Test.Name}");
-        }
-
-        private async Task ApiSetUp()
-        {
-            ApplicationConfiguration.SetUp();
-            endpoints = new FiltersEndpoints();
-            var response = await endpoints.GenerateDemoData();
-            dataGenerated = JsonConvert.DeserializeObject<DemoDataGeneratedModel>(response.Content);
         }
 
         /// <summary>
@@ -116,6 +108,18 @@ namespace ReportPortal.Tests
 
             await endpoints.DeleteLaunchByIds(launchRequest);
             await endpoints.DeleteDashboardById(id: dataGenerated.DashboardId.ToString());
+        }
+
+        private async Task ApiSetUp()
+        {
+            ApplicationConfiguration.SetUp();
+            this.endpoints = new FiltersEndpoints();
+            var response = await this.endpoints.GenerateDemoData();
+            var responseContent = response?.Content;
+            if (responseContent != null)
+            {
+                dataGenerated = JsonConvert.DeserializeObject<DemoDataGeneratedModel>(responseContent)!;
+            }
         }
     }
 }

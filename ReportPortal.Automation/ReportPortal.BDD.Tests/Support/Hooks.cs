@@ -48,7 +48,12 @@ namespace ReportPortal.BDD.Tests.Support
             ApplicationConfiguration.SetUp();
             endpoints = new FiltersEndpoints();
             var response = await endpoints.GenerateDemoData();
-            dataGenerated = JsonConvert.DeserializeObject<DemoDataGeneratedModel>(response.Content);
+
+            var responseContent = response?.Content;
+            if (responseContent != null)
+            {
+                dataGenerated = JsonConvert.DeserializeObject<DemoDataGeneratedModel>(responseContent)!;
+            }
 
             Logger.Log.Info($"Running test: {TestContext.CurrentContext.Test.Name}");
         }
