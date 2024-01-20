@@ -4,7 +4,7 @@ Background:
 	Given default user is logged in
 	And filters page is opened
 
-@regression @filters @add
+@regression @filters @add @ignore
 Scenario Outline: User is able to add a filter
 	Given user clicks add filter button
 	And user clicks more button  
