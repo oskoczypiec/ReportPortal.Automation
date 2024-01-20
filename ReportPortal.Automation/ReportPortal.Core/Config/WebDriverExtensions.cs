@@ -7,8 +7,9 @@ namespace ReportPortal.Core.Config
     using OpenQA.Selenium;
     using OpenQA.Selenium.Interactions;
     using OpenQA.Selenium.Support.UI;
-    using ReportPortal.Core.Logger;
     using System.Collections.ObjectModel;
+
+    using ReportPortal.Core.Logger;
 
     public static class WebDriverExtensions
     {

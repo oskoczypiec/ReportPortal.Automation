@@ -57,13 +57,15 @@ namespace ReportPortal.Core.API
 
         public async Task<RestResponse> GenerateDemoData(string project = "default_personal")
         {
+            Logger.Log.Info("Starting to generate demo data...");
             var request = new RequestFactory().GetRequest(GenericEndpoints.GenerateDemoData(project), Method.Post);
             var jsonBody = "{}";
             request.AddJsonBody(jsonBody);
-            Logger.Log.Info(request.ToString());
 
             var response = await this.ExecuteAsync(request);
+            Logger.Log.Info("Finished generating demo data...");
             await Task.Delay(5000);
+            Logger.Log.Info("After 5 sec delay");
             return response;
         }
 

@@ -16,7 +16,7 @@ namespace ReportPortal.BDD.Tests.Support
     {
         private IWebDriver driver;
         private readonly IObjectContainer objectContainer;
-        private readonly TestContext testContext;
+        private TestContext testContext;
         private static string screenshotFolder = "screenshots";
         private FiltersEndpoints endpoints;
         private DemoDataGeneratedModel dataGenerated;
@@ -42,8 +42,8 @@ namespace ReportPortal.BDD.Tests.Support
         public async Task BeforeScenario()
         {
             driver = WebDriverFactory.CreateDriver();
-            objectContainer.RegisterInstanceAs(driver);
-            this.driver.Navigate().GoToUrl("http://localhost:8080/ui/#login");
+            //objectContainer.RegisterInstanceAs(driver);
+            this.driver.Navigate().GoToUrl($"{Settings.URL}/ui/#login");
 
             ApplicationConfiguration.SetUp();
             endpoints = new FiltersEndpoints();
@@ -94,7 +94,5 @@ namespace ReportPortal.BDD.Tests.Support
             await endpoints.DeleteLaunchByIds(launchRequest);
             await endpoints.DeleteDashboardById(id: dataGenerated.DashboardId.ToString());
         }
-
-
     }
 }
