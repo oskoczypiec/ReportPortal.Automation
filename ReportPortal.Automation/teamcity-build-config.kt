@@ -1,6 +1,7 @@
 package _Self.buildTypes
 
 import jetbrains.buildServer.configs.kotlin.*
+import jetbrains.buildServer.configs.kotlin.buildFeatures.notifications
 import jetbrains.buildServer.configs.kotlin.buildFeatures.perfmon
 import jetbrains.buildServer.configs.kotlin.buildSteps.dotnetBuild
 import jetbrains.buildServer.configs.kotlin.buildSteps.dotnetTest
@@ -17,17 +18,17 @@ object Build : BuildType({
     }
 
     steps {
-        script {
-            name = "SonarScanner run"
-            id = "SonarScanner_run"
-            scriptContent = """SonarScanner.MSBuild.exe begin /k:"ReportPortal.SonarQube" /d:sonar.login="sqa_be479d240621ef1fd47215a1c97808b9e01a7a70""""
-        }
         nuGetInstaller {
             id = "jb_nuget_installer"
             toolPath = "%teamcity.tool.NuGet.CommandLine.DEFAULT%"
             projects = "ReportPortal.Automation/ReportPortal.Automation.sln"
             updatePackages = updateParams {
             }
+        }
+        script {
+            name = "SonarScanner run"
+            id = "SonarScanner_run"
+            scriptContent = """SonarScanner.MSBuild.exe begin /k:"ReportPortal.SonarQube" /d:sonar.login="sqa_be479d240621ef1fd47215a1c97808b9e01a7a70""""
         }
         dotnetBuild {
             id = "dotnet"
@@ -55,7 +56,6 @@ object Build : BuildType({
             scriptContent = """SonarScanner.MSBuild.exe end /d:sonar.login="sqa_be479d240621ef1fd47215a1c97808b9e01a7a70""""
         }
     }
-
     triggers {
         vcs {
             branchFilter = "+:<default>"
@@ -68,9 +68,23 @@ object Build : BuildType({
             triggerBuild = always()
         }
     }
-
     features {
         perfmon {
+        }
+        notifications {
+            notifierSettings = emailNotifier {
+                email = """
+                    aleksandra_skoczypiec@epam.com
+                    o.skoczypiec@gmail.com
+                """.trimIndent()
+            }
+            buildStarted = true
+            buildFailedToStart = true
+            buildFailed = true
+            buildFinishedSuccessfully = true
+            firstBuildErrorOccurs = true
+            buildProbablyHanging = true
+            queuedBuildRequiresApproval = true
         }
     }
 })
