@@ -28,7 +28,7 @@ object Build : BuildType({
         script {
             name = "SonarScanner run"
             id = "SonarScanner_run"
-            scriptContent = """SonarScanner.MSBuild.exe begin /k:"ReportPortal.SonarQube" /d:sonar.login="sqa_be479d240621ef1fd47215a1c97808b9e01a7a70""""
+            scriptContent = """SonarScanner.MSBuild.exe begin /k:"ReportPortal.SonarQube" /d:sonar.login="""""
         }
         dotnetBuild {
             id = "dotnet"
@@ -53,7 +53,7 @@ object Build : BuildType({
         script {
             name = "SonarScanner end"
             id = "SonarScanner_end"
-            scriptContent = """SonarScanner.MSBuild.exe end /d:sonar.login="sqa_be479d240621ef1fd47215a1c97808b9e01a7a70""""
+            scriptContent = """SonarScanner.MSBuild.exe end /d:sonar.login="""""
         }
     }
     triggers {
